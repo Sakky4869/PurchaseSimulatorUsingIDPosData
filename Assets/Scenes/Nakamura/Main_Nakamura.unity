@@ -336,7 +336,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 236384745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6dc058f5a5a2b44a82809c339cac8e, type: 3}
+  m_Script: {fileID: 11500000, guid: a885833c8b225d741bd7fc15193bd720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed_meter: {fileID: 236384748}
@@ -631,7 +631,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 861040716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17452cd32114c0849899ae9ae7b6e615, type: 3}
+  m_Script: {fileID: 11500000, guid: 20fa99526fe24914f90a9655863ffb19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &861040719
@@ -710,7 +710,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 343bf3301e0c1b647b861197f95cfc6b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd1d6ac72a4b1f54fb4df7c4c535def0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -948,7 +948,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1118213009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76beea1e22f48674195536555989146c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2632f737cb261a346bfacbf38dcbeca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1118213012
@@ -1027,7 +1027,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 82efd328bd8e4ca4fb2c96e0a137a7a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e306156fbaf58d44a85926ab164b4a8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

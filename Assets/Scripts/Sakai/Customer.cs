@@ -104,7 +104,7 @@ public class Customer : MonoBehaviour
         // 移動先の商品にたどりついたら，ターゲット変数の初期化
         if(collision.GetComponent<Production>() == targetProduction)
         {
-            Debug.Log(targetProduction.metaData);
+            //Debug.Log(targetProduction.metaData);
             targetProduction.image.color = Color.blue;
             targetProduction = null;
         }

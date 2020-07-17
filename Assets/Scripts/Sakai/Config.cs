@@ -89,6 +89,14 @@ public class Config : MonoBehaviour
                 mapManager.selectedProduction = null;
             }
         }
+        else
+        {
+            Link[] links = GameObject.FindObjectsOfType<Link>();
+            foreach(Link link in links)
+            {
+                link.GetComponent<Image>().enabled = true;
+            }
+        }
         dataManager.SaveModeData();
     }
 

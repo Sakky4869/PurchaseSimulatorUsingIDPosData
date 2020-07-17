@@ -15,6 +15,8 @@ public class SimulationManager : MonoBehaviour
     [SerializeField]
     private List<Production> productions;
 
+    private List<Link> links;
+
     /// <summary>
     /// シミュレーション速度（というよりUnityのタイムスケール）
     /// </summary>
@@ -84,6 +86,9 @@ public class SimulationManager : MonoBehaviour
 
         if (isPausedSimulation == true)
             return;
+
+        if (Config.operationMode == OperationMode.CONFIG)
+            isInSimulation = false;
 
         timeText.text = currentTime;
 
@@ -189,8 +194,23 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// シミュレーション開始の直前にすべてのリンクを隠す
+    /// </summary>
+    private void HideAllLinks()
+    {
+        foreach(Link link in links)
+        {
+            link.GetComponent<Image>().enabled = false;
+        }
+    }
+
+    
+
     private void StartSimulation(IDPosDataRoot iDPosDataRoot)
     {
+        links = GetLinks();
+        HideAllLinks();
         StartCoroutine(Simulate(iDPosDataRoot));
     }
 
@@ -216,6 +236,10 @@ public class SimulationManager : MonoBehaviour
                             bool flag = false;
                             do
                             {
+                                // シミュレーションが停止している間は待機
+                                while (isInSimulation == false)
+                                    yield return null;
+
                                 if (currentTime == iDPosData.entranceTime)
                                 {
                                     flag = true;
@@ -291,6 +315,11 @@ public class SimulationManager : MonoBehaviour
             //prods[i] = products[i].GetComponent<Production>();
         }
         return list;
+    }
+
+    private List<Link> GetLinks()
+    {
+        return new List<Link>(GameObject.FindObjectsOfType<Link>());
     }
 
     /// <summary>

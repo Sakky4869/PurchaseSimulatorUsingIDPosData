@@ -18,7 +18,7 @@ public class MapManager : MonoBehaviour
     //[SerializeField]
     public RectTransform productionRoot;
 
-    private List<Production> productions;
+    //private List<Production> productions;
 
     [SerializeField]
     private Link linkPrefab;
@@ -59,6 +59,7 @@ public class MapManager : MonoBehaviour
         DateTime now = DateTime.Now;
         production.productionId = now.Year + ":" + now.Month + ":" + now.Day + ":" + now.Hour + ":" + now.Minute + ":" + now.Second + ":" + now.Millisecond;
         //production.productionInfoPanel.gameObject.SetActive(false);
+        SortProductionsAndLinks();
     }
 
     /// <summary>
@@ -82,6 +83,7 @@ public class MapManager : MonoBehaviour
         production.productionId = productionObject.productionId;
         production.SetValueToInfoPanel();
         production.productionInfoPanel.gameObject.SetActive(false);
+        SortProductionsAndLinks();
     }
 
     public void InstantiateLink(Production first, Production second)
@@ -98,6 +100,7 @@ public class MapManager : MonoBehaviour
         //Debug.Log("second : " + second.links.Count);
         //Debug.Log("call");
         //return link;
+        SortProductionsAndLinks();
     }
 
     public void InstantiateLink(LinkObject linkObject)
@@ -132,6 +135,43 @@ public class MapManager : MonoBehaviour
         if(first != null && second != null)
         {
             InstantiateLink(first, second);
+        }
+    }
+
+    /// <summary>
+    /// 設置した商品とリンクの階層関係をソートして，商品が手前に来るようにする
+    private void SortProductionsAndLinks()
+    {
+        List<Production> productions = new List<Production>();
+        List<Link> links = new List<Link>();
+
+        for(int i = 0; i < productionRoot.childCount; i++)
+        {
+            // オブジェクトが商品だった場合
+            if(productionRoot.GetChild(i).GetComponent<Production>() != null)
+            {
+                productions.Add(productionRoot.GetChild(i).GetComponent<Production>());
+            }
+            // オブジェクトがリンクだった場合
+            else if(productionRoot.GetChild(i).GetComponent<Link>() != null)
+            {
+                links.Add(productionRoot.GetChild(i).GetComponent<Link>());
+            }
+        }
+
+        // 商品がリンクよりも手前になるように並べ替える
+        int index = 2;
+
+        foreach(Link link in links)
+        {
+            link.transform.SetSiblingIndex(index);
+            index++;
+        }
+
+        foreach(Production production in productions)
+        {
+            production.transform.SetSiblingIndex(index);
+            index++;
         }
     }
 

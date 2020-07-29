@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,7 @@ public class SimulationManager : MonoBehaviour
     [SerializeField]
     private Button startSimulationButton;
 
-    private Production nearestProductionFromEntrance;
+    //private Production nearestProductionFromEntrance;
 
     [SerializeField]
     private Customer customerPrefab;
@@ -59,12 +60,16 @@ public class SimulationManager : MonoBehaviour
     [SerializeField]
     private Text timeText;
 
+    private Config config;
+
     void Start()
     {
         minuteCount = 0;
         //startSimulationButton.onClick.AddListener(StartSimulation);
         //productions = new List<Production>();
         dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+
+        config = GameObject.Find("ConfigArea").GetComponent<Config>();
         
     }
 
@@ -90,16 +95,23 @@ public class SimulationManager : MonoBehaviour
         if (Config.operationMode == OperationMode.CONFIG)
             isInSimulation = false;
 
+        CountTime();
+        
+    }
+
+
+    private void CountTime()
+    {
         timeText.text = currentTime;
 
         minuteCount++;
-        if(minuteCount > 5)
+        if (minuteCount > 5)
         {
             minuteCount = 0;
             //Debug.Log(currentTime);
             string[] dataStr = currentTime.Split(':');
             int[] data = new int[dataStr.Length];
-            for(int i = 0; i < dataStr.Length; i++)
+            for (int i = 0; i < dataStr.Length; i++)
             {
                 data[i] = int.Parse(dataStr[i]);
             }
@@ -107,14 +119,14 @@ public class SimulationManager : MonoBehaviour
             // 分を進める
             data[4]++;
             // 分がこえる
-            if(data[4] == 60)
+            if (data[4] == 60)
             {
                 data[4] = 0;
                 // 時を進める
                 data[3]++;
             }
             // 時がこえる
-            if(data[3] == 24)
+            if (data[3] == 24)
             {
                 data[3] = 0;
                 data[2]++;
@@ -127,13 +139,13 @@ public class SimulationManager : MonoBehaviour
                 case 2:
                     bool flag = false;
                     // うるう年の判定
-                    if(data[0] % 4 == 0)
+                    if (data[0] % 4 == 0)
                     {
                         flag = true;
-                        if(data[0] % 100 == 0)
+                        if (data[0] % 100 == 0)
                         {
                             flag = false;
-                            if(data[0] % 400 == 0)
+                            if (data[0] % 400 == 0)
                             {
                                 flag = true;
                             }
@@ -146,7 +158,7 @@ public class SimulationManager : MonoBehaviour
 
                     if (flag)
                     {
-                        if(data[2] == 30)
+                        if (data[2] == 30)
                         {
                             data[2] = 1;
                             data[1]++;
@@ -154,7 +166,7 @@ public class SimulationManager : MonoBehaviour
                     }
                     else
                     {
-                        if(data[2] == 29)
+                        if (data[2] == 29)
                         {
                             data[2] = 1;
                             data[1]++;
@@ -166,7 +178,7 @@ public class SimulationManager : MonoBehaviour
                 case 9:
                 case 11:
                     // 1か月の30日の場合
-                    if(data[2] == 31)
+                    if (data[2] == 31)
                     {
                         data[2] = 1;
                         data[1]++;
@@ -183,7 +195,7 @@ public class SimulationManager : MonoBehaviour
             }
 
             // 月がこえる
-            if(data[1] == 13)
+            if (data[1] == 13)
             {
                 data[1] = 1;
                 data[0]++;
@@ -211,6 +223,13 @@ public class SimulationManager : MonoBehaviour
     {
         links = GetLinks();
         HideAllLinks();
+
+        // 時刻を指定モードのときは、時刻を指定時刻にスキップ
+        if (Config.isSpecifiedSimulation)
+        {
+            currentTime = config.GetSimulationStartTime();
+        }
+
         StartCoroutine(Simulate(iDPosDataRoot));
     }
 
@@ -232,6 +251,15 @@ public class SimulationManager : MonoBehaviour
                             continue;
                         foreach(IDPosData iDPosData in idPosHour.iDPosDatas)
                         {
+                            // 時刻指定があった場合は、指定時刻になるまでスキップ
+                            if (Config.isSpecifiedSimulation)
+                            {
+                                if(IsOverTime(currentTime, iDPosData.entranceTime) == false)
+                                {
+                                    //yield return null;
+                                    continue;
+                                }
+                            }
                             //Debug.Log("入店:" + iDPosData.entranceTime);
                             bool flag = false;
                             do
@@ -259,6 +287,26 @@ public class SimulationManager : MonoBehaviour
         }
         //InstantiateCustomer();
         yield return null;
+    }
+
+    /// <summary>
+    /// 現在時刻が目標時刻を超えているかどうか
+    /// </summary>
+    /// <param name="current">現在時刻</param>
+    /// <param name="target">目標時刻</param>
+    /// <returns></returns>
+    private bool IsOverTime(string current, string target)
+    {
+        int[] currentTimeInt = current.Split(':').Select(int.Parse).ToArray();
+        int[] targetTimeInt = target.Split(':').Select(int.Parse).ToArray();
+
+        for(int i = 0; i < currentTimeInt.Length; i++)
+        {
+            if (currentTimeInt[i] >= targetTimeInt[i])
+                return true;
+        }
+
+        return false;
     }
 
     private void InstantiateCustomer(List<ProductionData> metaDatas)

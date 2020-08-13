@@ -13,6 +13,9 @@ public class SimulationManager : MonoBehaviour
     /// </summary>
     private Dictionary<string, Vector2> productPositions;
 
+    /// <summary>
+    /// 
+    /// </summary>
     [SerializeField]
     private List<Production> productions;
 
@@ -65,8 +68,6 @@ public class SimulationManager : MonoBehaviour
     void Start()
     {
         minuteCount = 0;
-        //startSimulationButton.onClick.AddListener(StartSimulation);
-        //productions = new List<Production>();
         dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
@@ -99,7 +100,10 @@ public class SimulationManager : MonoBehaviour
         
     }
 
-
+    /// <summary>
+    /// 時刻のカウント
+    /// 
+    /// </summary>
     private void CountTime()
     {
         timeText.text = currentTime;
@@ -213,14 +217,19 @@ public class SimulationManager : MonoBehaviour
     {
         foreach(Link link in links)
         {
+            // Imageコンポーネントの無効化をすれば見えなくなる
             link.GetComponent<Image>().enabled = false;
         }
     }
 
     
-
+    /// <summary>
+    /// シミュレーションの開始メソッド
+    /// </summary>
+    /// <param name="iDPosDataRoot">読み込んだID-POSデータ</param>
     private void StartSimulation(IDPosDataRoot iDPosDataRoot)
     {
+
         links = GetLinks();
         HideAllLinks();
 
@@ -309,16 +318,25 @@ public class SimulationManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 顧客を生成する
+    /// </summary>
+    /// <param name="metaDatas">購入した商品のデータ</param>
     private void InstantiateCustomer(List<ProductionData> metaDatas)
     {
+        // 顧客のオブジェクトを生成
         Customer customer = Instantiate(customerPrefab, transform.position, Quaternion.identity, mapManager.productionRoot);
         customer.rectTransform.localScale = Vector3.one;
         customer.rectTransform.anchoredPosition = entrance.anchoredPosition;
+        
+        // 購入した商品データから経路を探索し，顧客のオブジェクトに登録
         for(int i = 0; i < metaDatas.Count - 1; i++)
         {
             Queue<Production> traceProductions = SearchRoute(metaDatas[i].productionMetaData, metaDatas[i + 1].productionMetaData);
             customer.RegisterTracePositions(traceProductions);
         }
+
+        // 顧客オブジェクトのシミュレーション開始
         customer.StartSimulation();
     }
 
@@ -327,32 +345,36 @@ public class SimulationManager : MonoBehaviour
     /// 入口に最も近い商品を探す
     /// </summary>
     /// <returns></returns>
-    private Production GetNearestProductionFromExtrance()
-    {
-        GameObject[] products = GameObject.FindGameObjectsWithTag("Production");
-        Production[] prods = new Production[products.Length];
-        for(int i = 0; i < products.Length; i++)
-        {
-            prods[i] = products[i].GetComponent<Production>();
-        }
-        productions = new List<Production>(prods);
+    //private Production GetNearestProductionFromExtrance()
+    //{
+    //    GameObject[] products = GameObject.FindGameObjectsWithTag("Production");
+    //    Production[] prods = new Production[products.Length];
+    //    for(int i = 0; i < products.Length; i++)
+    //    {
+    //        prods[i] = products[i].GetComponent<Production>();
+    //    }
+    //    productions = new List<Production>(prods);
 
-        GameObject entrance = GameObject.Find("Entrance");
-        float minDist = float.MaxValue;
-        Production production = null;
-        foreach(Production prod in productions)
-        {
-            float dist = Vector2.Distance(entrance.GetComponent<RectTransform>().anchoredPosition, prod.rectTransform.anchoredPosition);
-            if(dist < minDist)
-            {
-                minDist = dist;
-                production = prod;
-            }
-        }
+    //    GameObject entrance = GameObject.Find("Entrance");
+    //    float minDist = float.MaxValue;
+    //    Production production = null;
+    //    foreach(Production prod in productions)
+    //    {
+    //        float dist = Vector2.Distance(entrance.GetComponent<RectTransform>().anchoredPosition, prod.rectTransform.anchoredPosition);
+    //        if(dist < minDist)
+    //        {
+    //            minDist = dist;
+    //            production = prod;
+    //        }
+    //    }
 
-        return production;
-    }
+    //    return production;
+    //}
 
+    /// <summary>
+    /// 商品をすべて取得し，リストにして返す
+    /// </summary>
+    /// <returns></returns>
     private List<Production> GetProductions()
     {
         GameObject[] products = GameObject.FindGameObjectsWithTag("Production");
@@ -365,6 +387,10 @@ public class SimulationManager : MonoBehaviour
         return list;
     }
 
+    /// <summary>
+    /// 商品と商品をつなぐリンクをすべて取得し，リストにして返す
+    /// </summary>
+    /// <returns></returns>
     private List<Link> GetLinks()
     {
         return new List<Link>(GameObject.FindObjectsOfType<Link>());
@@ -388,11 +414,13 @@ public class SimulationManager : MonoBehaviour
             if(production.metaData == start)
             {
                 production.cost = 0;
+                production.beforeProduction = null;
                 //Debug.Log("start");
             }
             else
             {
                 production.cost = -1;
+                production.beforeProduction = null;
                 //Debug.Log("other");
             }
         }

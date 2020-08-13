@@ -52,6 +52,32 @@ public class Config : MonoBehaviour
 
     private DataManager dataManager;
 
+    /// <summary>
+    /// シミュレーションの開始時刻を指定するかのチェックボックス
+    /// </summary>
+    [SerializeField]
+    private Toggle specifiedToggle;
+
+    /// <summary>
+    /// シミュレーションで開始時刻を指定するかどうか
+    /// </summary>
+    public static bool isSpecifiedSimulation;
+
+    [SerializeField]
+    private InputField yearInput;
+
+    [SerializeField]
+    private InputField monthInput;
+
+    [SerializeField]
+    private InputField dayInput;
+
+    [SerializeField]
+    private InputField hourInput;
+
+    [SerializeField]
+    private InputField minuteInput;
+
 
     void Start()
     {
@@ -65,10 +91,13 @@ public class Config : MonoBehaviour
         //---- ここからモード選択スライダーの設定 ----
         operationModeSlider.onValueChanged.AddListener(SetOperationMode);
         installModeSlider.onValueChanged.AddListener(SetInstallMode);
+        specifiedToggle.onValueChanged.AddListener(SetIsSpecifiedMode);
         //---- ここまでモード選択スライダーの設定 ----
 
         operationMode = OperationMode.SIMULATION;
         installMode = InstallMode.DELETE;
+        isSpecifiedSimulation = false;
+
     }
 
     void Update()
@@ -77,6 +106,24 @@ public class Config : MonoBehaviour
         if (operationMode != OperationMode.CONFIG)
             return;
     }
+
+    public string GetSimulationStartTime()
+    {
+        // どれか一つでも情報が抜けていたらnullを返す
+        if (yearInput.text == "" || yearInput.text == null)
+            return null;
+        if (monthInput.text == "" || monthInput.text == null)
+            return null;
+        if (dayInput.text == "" || dayInput.text == null)
+            return null;
+        if (hourInput.text == "" || hourInput.text == null)
+            return null;
+        if (minuteInput.text == "" || minuteInput.text == null)
+            return null;
+
+        return yearInput.text + ":" + monthInput.text + ":" + dayInput.text + ":" + hourInput.text + ":" + minuteInput.text;
+    }
+
 
     private void SetOperationMode(float value)
     {
@@ -119,6 +166,11 @@ public class Config : MonoBehaviour
         }
         dataManager.SaveModeData();
         //Debug.Log(installMode);
+    }
+
+    private void SetIsSpecifiedMode(bool flag)
+    {
+        isSpecifiedSimulation = flag;
     }
 
 

@@ -65,17 +65,23 @@ public class SimulationManager : MonoBehaviour
 
     private Config config;
 
+    [SerializeField, Range(0, 1)]
+    private float timeScale;
+
     void Start()
     {
         minuteCount = 0;
         dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
+
+        Time.timeScale = timeScale;
         
     }
 
     void Update()
     {
+        Time.timeScale = timeScale;
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (Config.operationMode == OperationMode.CONFIG)

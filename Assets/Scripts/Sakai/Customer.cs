@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Customer : MonoBehaviour
@@ -9,6 +10,8 @@ public class Customer : MonoBehaviour
     /// </summary>
     [HideInInspector]
     public Queue<Production> traceProductions;
+
+    public List<string> traceProductionList;
 
     /// <summary>
     /// 読み取られたID-POSデータ
@@ -51,11 +54,12 @@ public class Customer : MonoBehaviour
             if(traceProductions.Count != 0)
             {
                 targetProduction = traceProductions.Dequeue();
-                targetProduction.image.color = Color.yellow;
+                Debug.Log("Next Production : " + targetProduction.metaData);
+                targetProduction.image.color = Color.red;
             }
             else
             {
-                //Debug.Log("exit");
+                Debug.Log("exit");
                 exitRectTransform = GameObject.Find("Exit").GetComponent<RectTransform>();
             }
         }
@@ -90,10 +94,17 @@ public class Customer : MonoBehaviour
         if (traceProductions == null)
             traceProductions = new Queue<Production>();
         //Debug.Log(productionQueue.Count);
+        
+        if (traceProductionList == null)
+            traceProductionList = new List<string>();
+        
         while(productionQueue.Count != 0)
         {
-            traceProductions.Enqueue(productionQueue.Dequeue());
+            Production p = productionQueue.Dequeue();
+            traceProductions.Enqueue(p);
+            traceProductionList.Add(p.metaData + " " + p.productionName);
         }
+
     }
 
 

@@ -353,6 +353,7 @@ public class DataManager : MonoBehaviour
             if(transform.GetComponent<Production>() != null)
             {
                 Production production = transform.GetComponent<Production>();
+                production.productionInfoPanel.SaveProductionData();
                 ProductionObject productionObject = new ProductionObject();
                 //Debug.Log(production.productionName + ", " + productionObject.productionData);
                 productionObject.productionData.productionName = production.productionName;
@@ -409,8 +410,17 @@ public class DataManager : MonoBehaviour
                     string[] data = reader.ReadLine().Split(',');
                     //Debug.Log(reader.EndOfStream);
                     string kakouCode = data[rowDatas["加工ｺｰﾄﾞ"]];
-                    string metaData = data[rowDatas["部門"]] + "," + data[rowDatas["AU"]] + "," + data[rowDatas["ﾗｲﾝ"]] + "," + data[rowDatas["ｸﾗｽ"]];
+                    string metaData = data[rowDatas["部門"]] + "," + data[rowDatas["AU"]] + "," + data[rowDatas["ﾗｲﾝ"]] + "," + data[rowDatas["ｸﾗｽ"]] + "," + data[rowDatas["商品名"]];
                     string productionName = data[rowDatas["商品名"]];
+                    //if (metaData.Contains("\r"))
+                    //{
+                    //    Debug.Log("meta data in line contains r");
+                    //}
+
+                    //if (metaData.Contains(System.Environment.NewLine))
+                    //{
+                    //    Debug.Log("meta data in line contains NewLine");
+                    //}
                     //Debug.Log(kakouCode);
                     // 最初はそのままデータを格納
                     if(iDPosData.kakouCode == "")

@@ -24107,6 +24107,7 @@ MonoBehaviour:
   isInSimulation: 0
   isPausedSimulation: 0
   timeText: {fileID: 835795342}
+  timeScale: 0.2
 --- !u!4 &1824653690
 Transform:
   m_ObjectHideFlags: 0

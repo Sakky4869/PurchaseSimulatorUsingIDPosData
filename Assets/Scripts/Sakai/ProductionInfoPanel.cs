@@ -125,12 +125,28 @@ public class ProductionInfoPanel : MonoBehaviour
 
     private void EndEditProductionName(string data)
     {
-        production.productionName = data;
+        production.productionName = nameInput.text;
+        if (production.productionName.Contains("\r"))
+            production.productionName.Replace("\r", "");
     }
 
     private void EndEditProductionMetaData(string data)
     {
-        production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text;
+        // 部門・AU・ライン・クラスが一致して，商品名が異なるものがあったので，
+        // 商品名も含めてメタデータにしようとしたが，商品名の最後になぜか改行コードが入るので，いったんとりやめ
+        production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text + "," + nameInput.text;
+        if (production.metaData.Contains("\r"))
+            production.metaData.Replace("\r", "");
+    }
+
+    public void SaveProductionData()
+    {
+        production.productionName = nameInput.text;
+        if (production.productionName.Contains("\r"))
+            production.productionName.Replace("\r", "");
+        production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text + "," + nameInput.text;
+        if (production.metaData.Contains("\r"))
+            production.metaData.Replace("\r", "");
     }
 
     public void OnPointerEnter()

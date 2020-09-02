@@ -584,15 +584,57 @@ public class DataManager : MonoBehaviour
             directoryInfo.Create();
         }
 
-        FileInfo fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        string systemDataFileUser = null;
+
+#if UNITY_EDITOR
+        systemDataFileUser = GetGitBranchName();
+#endif
+
+        FileInfo fileInfo;// = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        if(systemDataFileUser != null)
+        {
+            fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + ".json");
+        }
+        else
+        {
+            fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        }
+
+
         if(fileInfo.Exists == false)
         {
             fileInfo.Create();
         }
 
-        using(StreamWriter writer = new StreamWriter(Application.dataPath + "/SystemDatas/SystemData.json"))
+
+        if(systemDataFileUser == null)
         {
-            writer.Write(data);
+            using(StreamWriter writer = new StreamWriter(Application.dataPath + "/SystemDatas/SystemData.json"))
+            {
+                writer.Write(data);
+            }
+        }
+        else
+        {
+            using (StreamWriter writer = new StreamWriter(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + ".json"))
+            {
+                writer.Write(data);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Unityエディタで操作中のときに，ブランチ名に応じてデータファイルを作るため，ブランチ名を取得する
+    /// </summary>
+    /// <returns>現在のブランチ名</returns>
+    private string GetGitBranchName()
+    {
+        using(StreamReader streamReader = new StreamReader(Application.dataPath + "/../.git/HEAD"))
+        {
+            string[] data = streamReader.ReadToEnd().Split('/');
+            string returnData = data[data.Length - 1];
+            returnData = returnData.Replace("\n", "");
+            return returnData;
         }
     }
 
@@ -601,13 +643,30 @@ public class DataManager : MonoBehaviour
     /// </summary>
     private void ReadSystemDatas()
     {
+        string systemDataFileUser = null;
+#if UNITY_EDITOR
+        // Unityエディタで操作中のときは，現在のブランチの名前に応じてマップデータの保存ファイル名を変える
+        systemDataFileUser = GetGitBranchName();
+#endif
+
         DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + "/SystemDatas");
         if(directoryInfo.Exists == false)
         {
             return;
         }
 
-        FileInfo fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        FileInfo fileInfo;//= new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+
+        // エディタではないとき
+        if (systemDataFileUser != null)
+        {
+            fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + ".json");
+        }
+        else
+        {
+            fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        }
+
         if(fileInfo.Exists == false)
         {
             return;

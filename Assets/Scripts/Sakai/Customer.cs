@@ -54,12 +54,12 @@ public class Customer : MonoBehaviour
             if(traceProductions.Count != 0)
             {
                 targetProduction = traceProductions.Dequeue();
-                Debug.Log("Next Production : " + targetProduction.metaData);
+                //Debug.Log("Next Production : " + targetProduction.metaData);
                 targetProduction.image.color = Color.red;
             }
             else
             {
-                Debug.Log("exit");
+                //Debug.Log("exit");
                 exitRectTransform = GameObject.Find("Exit").GetComponent<RectTransform>();
             }
         }

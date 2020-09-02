@@ -419,15 +419,6 @@ public class DataManager : MonoBehaviour
                     string kakouCode = data[rowDatas["加工ｺｰﾄﾞ"]];
                     string metaData = data[rowDatas["部門"]] + "," + data[rowDatas["AU"]] + "," + data[rowDatas["ﾗｲﾝ"]] + "," + data[rowDatas["ｸﾗｽ"]] + "," + data[rowDatas["商品名"]];
                     string productionName = data[rowDatas["商品名"]];
-                    //if (metaData.Contains("\r"))
-                    //{
-                    //    Debug.Log("meta data in line contains r");
-                    //}
-
-                    //if (metaData.Contains(System.Environment.NewLine))
-                    //{
-                    //    Debug.Log("meta data in line contains NewLine");
-                    //}
                     //Debug.Log(kakouCode);
                     // 最初はそのままデータを格納
                     if(iDPosData.kakouCode == "")
@@ -458,7 +449,7 @@ public class DataManager : MonoBehaviour
                     // 違う人のデータなら新しくPOSのクラスを作成してそれに登録
                     if(iDPosData.kakouCode != kakouCode || reader.EndOfStream == true)
                     {
-                        // ここまでに貯めたデータをルートのリストの格納
+                        // ここまでに貯めたデータをルートのリストに格納
                         //iDPosDataRoot.datas.Add(iDPosData);
                         iDPosData.purchaseTime = data[rowDatas["日"]] + data[rowDatas["時台"]];
 
@@ -493,18 +484,17 @@ public class DataManager : MonoBehaviour
                         {
                             day = int.Parse(dayStr);
                         }
-                        //timeDataRoot.year = year;
-                        //timeDataRoot.monthDatas[month - 1].month = month;
-                        //timeDataRoot.monthDatas[month - 1].dayDatas[day - 1].day = day;
-
                         // 時刻データの取り出し
                         hour = int.Parse(data[rowDatas["時台"]]);
-                        //timeDataRoot.monthDatas[month - 1].dayDatas[day - 1].hourData[hour - 1]++;
 
+                        // 年月日時のデータを保存してから1人分のID-POSデータを保存
                         iDPosDataRoot.yearDatas[0].year = year;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].month = month;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].day = day;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].hour = hour;
+                        // 最後に出口のデータを入れる
+                        iDPosData.productionDatas.Add(new ProductionData("exit", "0,0,0,0,exit"));
+                        // ここでID-POSデータを保存
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
 
                         if(reader.EndOfStream == false)
@@ -521,8 +511,6 @@ public class DataManager : MonoBehaviour
                 lineCount++;
             }
 
-            //if()
-            //Debug.Log(customerCount);
         }
 
 

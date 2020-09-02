@@ -334,10 +334,13 @@ public class SimulationManager : MonoBehaviour
         Customer customer = Instantiate(customerPrefab, transform.position, Quaternion.identity, mapManager.productionRoot);
         customer.rectTransform.localScale = Vector3.one;
         customer.rectTransform.anchoredPosition = entrance.anchoredPosition;
-        
+
+        Debug.Log(metaDatas.Count);
+
         // 購入した商品データから経路を探索し，顧客のオブジェクトに登録
         for(int i = 0; i < metaDatas.Count - 1; i++)
         {
+            Debug.Log("start : " + metaDatas[i].productionMetaData + " , goal : " + metaDatas[i + 1].productionMetaData);
             Queue<Production> traceProductions = SearchRoute(metaDatas[i].productionMetaData, metaDatas[i + 1].productionMetaData);
             customer.RegisterTracePositions(traceProductions);
         }
@@ -513,18 +516,28 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
+        //if (goalProduction == null)
+        //    Debug.Log("goal is null");
+
         Stack<Production> traceProductionStack = new Stack<Production>();
         string path = "Goal -> ";
         Production currentProduction = goalProduction;
         traceProductionStack.Push(goalProduction);
         while (true)
         {
-            Production nextProduction = currentProduction.beforeProduction;
-            if (!nextProduction)
+            // 現在登録しようとしているProductionの前のProductionがないとき，つまり最初のProductionのときはwhileを抜ける
+            if (currentProduction.beforeProduction == null)
             {
                 path += " Start";
                 break;
             }
+            Production nextProduction = currentProduction.beforeProduction;
+            // もともとここで抜けるかどうかの判定をしていたが，ここの前でエラーが出るので上に変更
+            //if (!nextProduction)
+            //{
+            //    path += " Start";
+            //    break;
+            //}
 
             traceProductionStack.Push(nextProduction);
 

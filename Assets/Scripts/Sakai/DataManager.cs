@@ -300,7 +300,7 @@ public class DataManager : MonoBehaviour
     /// ID-POSデータのファイル名
     /// </summary>
     [SerializeField]
-    private string fileName;
+    private string idPosDataFileName;
 
     /// <summary>
     /// マップに置くオブジェクトのルート
@@ -382,7 +382,14 @@ public class DataManager : MonoBehaviour
 
     public void ReadIDPosData()
     {
-        using(StreamReader reader = new StreamReader(Application.dataPath + "/PosDatas/ID-POS.csv"))
+        // ファイル名が拡張子付きのときは拡張子を外したものに変更
+        if (idPosDataFileName.Contains("."))
+        {
+            idPosDataFileName = idPosDataFileName.Split('.')[0];
+        }
+
+        // ID-POSデータファイルを読み込み
+        using(StreamReader reader = new StreamReader(Application.dataPath + "/PosDatas/" + idPosDataFileName +  ".csv"))
         {
             int lineCount = 0;
 

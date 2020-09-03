@@ -91,7 +91,8 @@ public class Config : MonoBehaviour
         //---- ここからモード選択スライダーの設定 ----
         operationModeSlider.onValueChanged.AddListener(SetOperationMode);
         installModeSlider.onValueChanged.AddListener(SetInstallMode);
-        specifiedToggle.onValueChanged.AddListener(SetIsSpecifiedMode);
+		if(specifiedToggle != null)
+			specifiedToggle.onValueChanged.AddListener(SetIsSpecifiedMode);
         //---- ここまでモード選択スライダーの設定 ----
 
         operationMode = OperationMode.SIMULATION;

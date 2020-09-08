@@ -90,11 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcf5bb7b24ac3945842a3668b7adca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  traceProductionList: []
   dataStrings: []
   simulationManager: {fileID: 0}
   rectTransform: {fileID: 1566992885629054984}
   moveSpeed: 10
   isShopping: 0
+  achievedDistance: 10
 --- !u!50 &8104642548142188160
 Rigidbody2D:
   serializedVersion: 4

@@ -75,7 +75,7 @@ public class Customer : MonoBehaviour
             }
             
             // ターゲット商品に到着したら次の商品をターゲットにする
-            if(IsGetProduction(targetProduction, achievedDistance))
+            if(IsGetTargetProduction(targetProduction, achievedDistance))
             {
                 targetProduction.image.color = Color.blue;
                 targetProduction = null;
@@ -119,7 +119,7 @@ public class Customer : MonoBehaviour
     
     private bool IsGetTargetProduction(Production target, float distance)
     {
-        float dist = Vector2.Distance(rectTransform, target.rectTransform);
+        float dist = Vector2.Distance(rectTransform.anchoredPosition, target.rectTransform.anchoredPosition);
         return dist < distance;
     }
 

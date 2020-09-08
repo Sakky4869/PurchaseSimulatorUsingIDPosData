@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,6 +32,9 @@ public class Customer : MonoBehaviour
     public bool isShopping;
 
     private RectTransform exitRectTransform;
+    
+    [SerializeField]
+    private float achievedDistance;
 
     void Start()
     {
@@ -70,6 +73,13 @@ public class Customer : MonoBehaviour
                 Vector2 direct = (targetProduction.rectTransform.anchoredPosition - rectTransform.anchoredPosition).normalized;
                 rectTransform.anchoredPosition += direct * moveSpeed;
             }
+            
+            // ターゲット商品に到着したら次の商品をターゲットにする
+            if(IsGetProduction(targetProduction, achievedDistance))
+            {
+                targetProduction.image.color = Color.blue;
+                targetProduction = null;
+            }
         }
         
         if (exitRectTransform)
@@ -106,19 +116,25 @@ public class Customer : MonoBehaviour
         }
 
     }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    private bool IsGetTargetProduction(Production target, float distance)
     {
-        if (collision.tag != "Production")
-            return;
-        // 移動先の商品にたどりついたら，ターゲット変数の初期化
-        if(collision.GetComponent<Production>() == targetProduction)
-        {
-            //Debug.Log(targetProduction.metaData);
-            targetProduction.image.color = Color.blue;
-            targetProduction = null;
-        }
+        float dist = Vector2.Distance(rectTransform, target.rectTransform);
+        return dist < distance;
     }
+
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.tag != "Production")
+    //        return;
+    //    // 移動先の商品にたどりついたら，ターゲット変数の初期化
+    //    if(collision.GetComponent<Production>() == targetProduction)
+    //    {
+    //        //Debug.Log(targetProduction.metaData);
+    //        targetProduction.image.color = Color.blue;
+    //        targetProduction = null;
+    //    }
+    //}
 
 }

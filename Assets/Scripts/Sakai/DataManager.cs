@@ -417,7 +417,7 @@ public class DataManager : MonoBehaviour
                     string[] data = reader.ReadLine().Split(',');
                     //Debug.Log(reader.EndOfStream);
                     string kakouCode = data[rowDatas["加工ｺｰﾄﾞ"]];
-                    string metaData = data[rowDatas["部門"]] + "," + data[rowDatas["AU"]] + "," + data[rowDatas["ﾗｲﾝ"]] + "," + data[rowDatas["ｸﾗｽ"]] + "," + data[rowDatas["商品名"]];
+                    string metaData = data[rowDatas["部門"]] + "," + data[rowDatas["AU"]] + "," + data[rowDatas["ﾗｲﾝ"]] + "," + data[rowDatas["ｸﾗｽ"]] ;//+ "," + data[rowDatas["商品名"]];
                     string productionName = data[rowDatas["商品名"]];
                     //Debug.Log(kakouCode);
                     // 最初はそのままデータを格納

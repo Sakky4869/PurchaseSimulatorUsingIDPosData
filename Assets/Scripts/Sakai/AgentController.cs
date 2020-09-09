@@ -15,36 +15,57 @@ public class AgentController : MonoBehaviour
     [SerializeField]
     private GameObject target;
 
+    private Queue<Vector3> tracePositions;
+
     void Start()
     {
-        //agent.speed = speed;
+        
+    }
+
+    public void Init()
+    {
+        tracePositions = new Queue<Vector3>();
     }
 
     void Update()
     {
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    transform.Translate(0, 0, speed * Time.deltaTime);
-        //}
+        //if(agent.pathPending == true)
+            agent.SetDestination(target.transform.position);
+        //Debug.Log(agent.pathPending);
+        //Debug.Log(agent.pathStatus);
+        //Debug.Log(agent.nextPosition.x);
+        UpdateRotation();
+        UpdatePosition();
 
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    transform.Translate(0, 0, - speed * Time.deltaTime);
-        //}
 
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    transform.Translate(speed * Time.deltaTime, 0, 0);
-        //}
-
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    transform.Translate(-speed * Time.deltaTime, 0, 0);
-        //}
-
-        agent.SetDestination(target.transform.position);
-        Debug.Log(agent.pathPending);
-        //Debug.Log();
-        
     }
+
+    private void UpdateQueue()
+    {
+
+    }
+
+    private void UpdatePosition()
+    {
+        transform.Translate(transform.rotation * transform.forward * speed);
+    }
+
+    private void UpdateRotation()
+    {
+        if (agent == null)
+        {
+            Debug.Log("agent is null");
+            return;
+        }
+
+        if(agent.nextPosition == null)
+        {
+            Debug.Log("agent next position is null");
+            return;
+        }
+
+        Quaternion angle = Quaternion.Euler(agent.nextPosition - transform.position);
+        transform.rotation = angle;
+    }
+
 }

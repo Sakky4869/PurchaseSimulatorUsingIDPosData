@@ -335,12 +335,12 @@ public class SimulationManager : MonoBehaviour
         customer.rectTransform.localScale = Vector3.one;
         customer.rectTransform.anchoredPosition = entrance.anchoredPosition;
 
-        Debug.Log(metaDatas.Count);
+        //Debug.Log(metaDatas.Count);
 
         // 購入した商品データから経路を探索し，顧客のオブジェクトに登録
         for(int i = 0; i < metaDatas.Count - 1; i++)
         {
-            Debug.Log("start : " + metaDatas[i].productionMetaData + " , goal : " + metaDatas[i + 1].productionMetaData);
+            //Debug.Log("start : " + metaDatas[i].productionMetaData + " , goal : " + metaDatas[i + 1].productionMetaData);
             Queue<Production> traceProductions = SearchRoute(metaDatas[i].productionMetaData, metaDatas[i + 1].productionMetaData);
             customer.RegisterTracePositions(traceProductions);
         }
@@ -513,6 +513,7 @@ public class SimulationManager : MonoBehaviour
             if(prod.metaData == goal)
             {
                 goalProduction = prod;
+                //Debug.Log("find goal production");
             }
         }
 

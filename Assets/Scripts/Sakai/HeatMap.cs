@@ -22,20 +22,22 @@ public class HeatMap : MonoBehaviour
     /// </summary>
     [SerializeField]
     private RawImage heatMapImage;
+    
+    /// <summary>
+    /// エージェントの行動を記録する配列
+    /// </summary>
+    public int[, ] agentTraceGrid;
+    
+    [SerializeField]
+    private Transform gridOriginTransform;
+    
+    [SerializeField]
+    private GridCell gridCell;
 
     void Start()
     {
-        heatMapTexture = new Texture2D(1280, 850);
-        heatMapTexture = (Texture2D)heatMapImage.mainTexture;
-        for(int i = 0; i < heatMapTexture.height; i++)
-        {
-            for(int j = 0; j < heatMapTexture.width; j++)
-            {
-                heatMapTexture.SetPixel(j, i, Color.red);
-            }
-        }
-
-        heatMapImage.texture = heatMapTexture;
+        agentTraceGrid = new int[1280, 850];
+        InstantiateAgentTraceGrid(agentTraceGrid);
     }
 
 
@@ -44,9 +46,26 @@ public class HeatMap : MonoBehaviour
     {
         
     }
+    
+    
+    private void InstantiateAgentTranceGrid(int[, ] matrix)
+    {
+		for(int y = 0; y < matrix.GetLength(1); y++)
+		{
+			for(int x = 0; x < matrix.GetLength(0); x++)
+			{
+				Vector3 pos = gridOrigin.position;
+				pos.x = x;
+				pos.y = y;
+				GridCell cell = Instantiate(gridCell.gameObject, pos, Quaternion.identity) as GridCell;
+				cell.x = x;
+				cell.y = y;
+			}
+		}
+	}
 
     public void UpdateHeatMapMatrix(int agentPosX, int agentPosY)
     {
-
+		agentTraceGrid[agentPosY, agentPosX] ++;
     }
 }

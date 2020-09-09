@@ -29,11 +29,9 @@ public class AgentController : MonoBehaviour
 
     void Update()
     {
-        //if(agent.pathPending == true)
-            agent.SetDestination(target.transform.position);
-        //Debug.Log(agent.pathPending);
-        //Debug.Log(agent.pathStatus);
-        //Debug.Log(agent.nextPosition.x);
+        
+        agent.SetDestination(target.transform.position);
+        
         UpdateRotation();
         UpdatePosition();
 
@@ -47,7 +45,7 @@ public class AgentController : MonoBehaviour
 
     private void UpdatePosition()
     {
-        transform.Translate(transform.rotation * transform.forward * speed);
+        transform.Translate(transform.forward * speed);
     }
 
     private void UpdateRotation()
@@ -64,7 +62,9 @@ public class AgentController : MonoBehaviour
             return;
         }
 
-        Quaternion angle = Quaternion.Euler(agent.nextPosition - transform.position);
+        Quaternion angle = Quaternion.LookRotation(agent.nextPosition - transform.position);
+        angle.x = 0;
+        angle.z = 0;
         transform.rotation = angle;
     }
 

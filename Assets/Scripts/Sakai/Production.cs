@@ -33,6 +33,10 @@ public class Production : MonoBehaviour
 
     private MapManager mapManager;
 
+    /// <summary>
+    /// 自分つながっているリンク
+    /// 2Dのときのみ使用
+    /// </summary>
     //[HideInInspector]
     public List<Link> links;
     

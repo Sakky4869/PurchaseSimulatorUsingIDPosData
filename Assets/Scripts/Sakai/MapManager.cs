@@ -16,6 +16,9 @@ public class MapManager : MonoBehaviour
     private Production productionPrefab;
 
     //[SerializeField]
+    //private 
+
+    //[SerializeField]
     public RectTransform productionRoot;
 
     //private List<Production> productions;

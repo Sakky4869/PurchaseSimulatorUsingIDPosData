@@ -75,7 +75,7 @@ public class HeatMap : MonoBehaviour
         maxValueOfAgentTraceGrid = 0;
         heatMapIsShown = 0;
         gridCellSize = (int)gridCell.transform.localScale.x;
-        agentTraceGrid = new int[1700 / gridCellSize, 2560 / gridCellSize];
+        agentTraceGrid = new int[425 / gridCellSize, 640 / gridCellSize];
         gridCells = new List<GridCell>();
         InstantiateAgentTraceGrid(agentTraceGrid);
         //SetLinkOfCells();

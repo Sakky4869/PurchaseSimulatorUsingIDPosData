@@ -17,6 +17,18 @@ public class GridCell : MonoBehaviour
     [HideInInspector]
     public int y;
 
+    //[HideInInspector]
+    public GridCell forwardCell;
+
+    //[HideInInspector]
+    public GridCell backwardCell;
+
+    //[HideInInspector]
+    public GridCell rightCell;
+
+    //[HideInInspector]
+    public GridCell leftCell;
+
     /// <summary>
     /// ヒートマップの生成スクリプト
     /// </summary>
@@ -44,6 +56,12 @@ public class GridCell : MonoBehaviour
     //[SerializeField]
     public Image heatMapCellImage;
 
+    [HideInInspector]
+    public float cost;
+
+    [HideInInspector]
+    public bool isVisited;
+
     
     
 
@@ -60,6 +78,7 @@ public class GridCell : MonoBehaviour
     public void Init()
     {
         heatMap = GameObject.Find("HeatMapCreator").GetComponent<HeatMap>();
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
     /// <summary>
@@ -67,7 +86,7 @@ public class GridCell : MonoBehaviour
     /// </summary>
     /// <param name="minValue">グリッドのデータの最小値</param>
     /// <param name="maxValue">グリッドのデータの最大値</param>
-    public void SetGridCellImageColor(int minValue, int maxValue)
+    public void SetGridCellImageColor(int minValue, int maxValue, float alpha)
     {
         // グリッドのデータの最大値と最小値とこのセルの値からヒートマップでの色を計算
         float minV = minValue;
@@ -78,11 +97,19 @@ public class GridCell : MonoBehaviour
         int g = 255 - b - r;
 
         // Imageにセット
-        heatMapCellImage.color = new Color(r, g, b);
+        heatMapCellImage.color = new Color(r, g, b, alpha);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // 障害物のときは見えなくする
+        //if (other.tag == "Obstacle")
+        //{
+        //    GetComponent<MeshRenderer>().enabled = false;
+        //    gameObject.SetActive(false);
+
+        //}
+
         // エージェントのときに記録
         if (other.tag != "Agent")
             return;
@@ -98,4 +125,11 @@ public class GridCell : MonoBehaviour
         //    Debug.Log("material is null");
         //mesh.material.color = myColor[traceCount % 3];
     }
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    // 障害物のときは見えるようにする
+    //    if (other.tag == "Obstacle")
+    //        GetComponent<MeshRenderer>().enabled = true;
+    //}
 }

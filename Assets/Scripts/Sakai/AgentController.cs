@@ -17,9 +17,14 @@ public class AgentController : MonoBehaviour
 
     private Queue<Vector3> tracePositions;
 
+    [SerializeField]
+    private GameObject tracePositionObject;
+
+    private bool switchFlag;
+
     void Start()
     {
-        
+        switchFlag = false;
     }
 
     public void Init()
@@ -31,11 +36,35 @@ public class AgentController : MonoBehaviour
     {
         
         agent.SetDestination(target.transform.position);
-        
-        UpdateRotation();
-        UpdatePosition();
+
+        //Debug.Log(agent.pathPending);
+
+        //if (agent.pathPending == false)
+        //{
+        //    InstantiateTracePositionObjects();
+        //    //if(switchFlag == false){
+        //    //    switchFlag = true;
+        //    //}
+        //}
+        //else
+        //{
+        //    if (switchFlag)
+        //        switchFlag = false;
+        //}
+
+        //UpdateRotation();
+        //UpdatePosition();
 
 
+    }
+
+    private void InstantiateTracePositionObjects()
+    {
+        foreach (Vector3 pos in agent.path.corners)
+        {
+            Instantiate(tracePositionObject, pos, Quaternion.identity);
+        }
+        //Instantiate(tracePositionObject, agent.path.corners[0], Quaternion.identity);
     }
 
     private void UpdateQueue()

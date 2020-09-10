@@ -7,6 +7,7 @@ TagManager:
   - Production
   - Link
   - Agent
+  - Obstacle
   layers:
   - Default
   - TransparentFX

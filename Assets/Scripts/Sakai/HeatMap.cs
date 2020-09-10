@@ -54,17 +54,31 @@ public class HeatMap : MonoBehaviour
     /// </summary>
     private int gridCellSize;
 
-    private int num;
+    /// <summary>
+    /// ヒートマップが表示されているかどうか
+    /// １－＞表示されている
+    /// ０－＞表示されていない
+    /// </summary>
+    private int heatMapIsShown;
+
+    /// <summary>
+    /// ヒートマップの透明度　０～１の小数
+    /// </summary>
+    [SerializeField, Range(0f, 1f)]
+    private float heatMapAlpha;
+
+
 
     void Start()
     {
         minValueOfAgentTraceGrid = 0;
         maxValueOfAgentTraceGrid = 0;
-        num = 0;
+        heatMapIsShown = 0;
         gridCellSize = (int)gridCell.transform.localScale.x;
-        agentTraceGrid = new int[850 / gridCellSize, 1280 / gridCellSize];
+        agentTraceGrid = new int[1700 / gridCellSize, 2560 / gridCellSize];
         gridCells = new List<GridCell>();
         InstantiateAgentTraceGrid(agentTraceGrid);
+        //SetLinkOfCells();
     }
 
 
@@ -100,6 +114,48 @@ public class HeatMap : MonoBehaviour
 		}
 	}
 
+    private void SetLinkOfCells()
+    {
+        RaycastHit hit;
+        foreach(GridCell gridCell in gridCells)
+        {
+            Ray[] rays = new Ray[]
+            {
+                new Ray(transform.position, transform.forward),
+                new Ray(transform.position, - transform.forward),
+                new Ray(transform.position, transform.right),
+                new Ray(transform.position, - transform.right)
+            };
+            for(int i = 0; i < rays.Length; i++)
+            {
+                if(Physics.Raycast(rays[i], out hit, 5f))
+                {
+                    Debug.Log("hit");
+                    if(hit.collider.tag == "Obstacle")
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                gridCell.forwardCell = hit.collider.GetComponent<GridCell>();
+                                break;
+                            case 1:
+                                gridCell.backwardCell = hit.collider.GetComponent<GridCell>();
+                                break;
+                            case 2:
+                                gridCell.rightCell = hit.collider.GetComponent<GridCell>();
+                                break;
+                            case 3:
+                                gridCell.leftCell = hit.collider.GetComponent<GridCell>();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// グリッド配列の情報更新
     /// </summary>
@@ -127,8 +183,8 @@ public class HeatMap : MonoBehaviour
     {
         foreach(GridCell cell in gridCells)
         {
-            cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid);
-            if(num == 0)
+            cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
+            if(heatMapIsShown == 0)
             {
                 cell.heatMapCellImage.gameObject.SetActive(true);
             }
@@ -138,6 +194,6 @@ public class HeatMap : MonoBehaviour
             }
         }
 
-        num = 1 - num;
+        heatMapIsShown = 1 - heatMapIsShown;
     }
 }

@@ -62,35 +62,35 @@ public class AgentController : MonoBehaviour
         //Debug.Log(GetDistanceToTargetObject());
     }
 
-    private void InstantiateTracePositionObjects()
-    {
-        //Debug.Log(agent.path.corners.Length);
-        if(agent.path.corners.Length > 2)
-        {
-            //spawned.transform.position = agent.path.corners[agent.path.corners.Length - 2];
-            //spawned.transform.position = agent.path.corners[1];
-            transform.position = Vector3.Lerp(transform.position, agent.path.corners[1], 0.85f);
-        }
-        //spawned.transform.position = agent.path.corners[1];
-        //for (int i = 0; i < agent.path.corners.Length; i++)
-        //{
-        //    if (tracePositionObjectList.Count <= i)
-        //    {
-        //        tracePositionObjectList.Add(Instantiate(tracePositionObject, agent.path.corners[i], Quaternion.identity));
-        //    }
-        //    else
-        //    {
-        //        tracePositionObjectList[i].transform.position = agent.path.corners[i];
-        //    }
-        //}
+    //private void InstantiateTracePositionObjects()
+    //{
+    //    //Debug.Log(agent.path.corners.Length);
+    //    if(agent.path.corners.Length > 2)
+    //    {
+    //        //spawned.transform.position = agent.path.corners[agent.path.corners.Length - 2];
+    //        //spawned.transform.position = agent.path.corners[1];
+    //        transform.position = Vector3.Lerp(transform.position, agent.path.corners[1], 0.85f);
+    //    }
+    //    //spawned.transform.position = agent.path.corners[1];
+    //    //for (int i = 0; i < agent.path.corners.Length; i++)
+    //    //{
+    //    //    if (tracePositionObjectList.Count <= i)
+    //    //    {
+    //    //        tracePositionObjectList.Add(Instantiate(tracePositionObject, agent.path.corners[i], Quaternion.identity));
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        tracePositionObjectList[i].transform.position = agent.path.corners[i];
+    //    //    }
+    //    //}
 
-        //foreach (Vector3 pos in agent.path.corners)
-        //{
-        //    Instantiate(tracePositionObject, pos, Quaternion.identity);
-        //}
+    //    //foreach (Vector3 pos in agent.path.corners)
+    //    //{
+    //    //    Instantiate(tracePositionObject, pos, Quaternion.identity);
+    //    //}
 
-        //Instantiate(tracePositionObject, agent.path.corners[(int)agent.path.corners.Length / 2], Quaternion.identity);
-    }
+    //    //Instantiate(tracePositionObject, agent.path.corners[(int)agent.path.corners.Length / 2], Quaternion.identity);
+    //}
 
 
     private float GetDistanceToTargetObject()
@@ -142,24 +142,24 @@ public class AgentController : MonoBehaviour
         
     }
 
-    private void UpdateRotation()
-    {
-        if (agent == null)
-        {
-            Debug.Log("agent is null");
-            return;
-        }
+    //private void UpdateRotation()
+    //{
+    //    if (agent == null)
+    //    {
+    //        Debug.Log("agent is null");
+    //        return;
+    //    }
 
-        if(agent.nextPosition == null)
-        {
-            Debug.Log("agent next position is null");
-            return;
-        }
+    //    if(agent.nextPosition == null)
+    //    {
+    //        Debug.Log("agent next position is null");
+    //        return;
+    //    }
 
-        Quaternion angle = Quaternion.LookRotation(agent.nextPosition - transform.position);
-        angle.x = 0;
-        angle.z = 0;
-        transform.rotation = angle;
-    }
+    //    Quaternion angle = Quaternion.LookRotation(agent.nextPosition - transform.position);
+    //    angle.x = 0;
+    //    angle.z = 0;
+    //    transform.rotation = angle;
+    //}
 
 }

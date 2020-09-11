@@ -50,7 +50,11 @@ public class Config : MonoBehaviour
 
     private MapManager mapManager;
 
+    private MapManager3D mapManager3D;
+
     private DataManager dataManager;
+
+    private DataManager3D dataManager3D;
 
     /// <summary>
     /// シミュレーションの開始時刻を指定するかのチェックボックス
@@ -84,8 +88,17 @@ public class Config : MonoBehaviour
         //----ここから他オブジェクトのコンポーネントの取得----
 
         simulationManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<SimulationManager>();
-        mapManager = GameObject.Find("MapImage").GetComponent<MapManager>();
-        dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+        // MapManagerを探して初期化
+        if(GameObject.Find("MapImage"))
+            mapManager = GameObject.Find("MapImage").GetComponent<MapManager>();
+        if (GameObject.Find("Stage"))
+            mapManager3D = GameObject.Find("Stage").GetComponent<MapManager3D>();
+
+        // DataManagerを探して初期化
+        if(GameObject.Find("DataManager"))
+            dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+        if (GameObject.Find("DataManager3D"))
+            dataManager3D = GameObject.Find("DataManager3D").GetComponent<DataManager3D>();
         //----ここまで他オブジェクトのコンポーネントの取得----
 
         //---- ここからモード選択スライダーの設定 ----
@@ -129,28 +142,46 @@ public class Config : MonoBehaviour
     private void SetOperationMode(float value)
     {
         operationMode = (OperationMode)(int)value;
-        if(operationMode == OperationMode.SIMULATION)
+        if (dataManager3D != null)
         {
-            if(mapManager.selectedProduction != null)
+            dataManager3D.SaveModeData3D();
+            return;
+        }
+        if (operationMode == OperationMode.SIMULATION)
+        {
+            // 2Dモードのときのみ実行
+            if (mapManager != null)
             {
-                mapManager.selectedProduction.image.color = Color.blue;
-                mapManager.selectedProduction = null;
+                if(mapManager.selectedProduction != null)
+                {
+                    mapManager.selectedProduction.image.color = Color.blue;
+                    mapManager.selectedProduction = null;
+                }
             }
         }
         else
         {
-            Link[] links = GameObject.FindObjectsOfType<Link>();
-            foreach(Link link in links)
+            if(mapManager != null)
             {
-                link.GetComponent<Image>().enabled = true;
+                Link[] links = GameObject.FindObjectsOfType<Link>();
+                foreach(Link link in links)
+                {
+                    link.GetComponent<Image>().enabled = true;
+                }
             }
         }
-        dataManager.SaveModeData();
+        if(dataManager != null)
+            dataManager.SaveModeData();
     }
 
     private void SetInstallMode(float value)
     {
         installMode = (InstallMode)(int)value;
+        if(dataManager3D != null)
+        {
+            dataManager3D.SaveModeData3D();
+            return;
+        }
         switch (installMode)
         {
             case InstallMode.DELETE:
@@ -165,7 +196,8 @@ public class Config : MonoBehaviour
             default:
                 break;
         }
-        dataManager.SaveModeData();
+        if(dataManager != null)
+            dataManager.SaveModeData();
         //Debug.Log(installMode);
     }
 

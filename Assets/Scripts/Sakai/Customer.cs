@@ -16,8 +16,8 @@ public class Customer : MonoBehaviour
     /// <summary>
     /// 読み取られたID-POSデータ
     /// </summary>
-    [HideInInspector]
-    public List<string> dataStrings;
+    //[HideInInspector]
+    //public List<string> dataStrings;
 
     [HideInInspector]
     public SimulationManager simulationManager;

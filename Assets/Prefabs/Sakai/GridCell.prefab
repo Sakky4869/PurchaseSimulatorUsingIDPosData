@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7682492728092272802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -195,6 +195,7 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   traceCount: 0
   heatMapCellImage: {fileID: 360867294894560734}
+  heatMapImageParent: {fileID: 8212350290582878267}
   cost: 0
   isVisited: 0
 --- !u!54 &-5064333544397854867
@@ -231,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7434792547776403910
 RectTransform:
   m_ObjectHideFlags: 0

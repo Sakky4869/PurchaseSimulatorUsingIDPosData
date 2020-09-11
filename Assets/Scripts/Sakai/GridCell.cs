@@ -56,6 +56,8 @@ public class GridCell : MonoBehaviour
     //[SerializeField]
     public Image heatMapCellImage;
 
+    public GameObject heatMapImageParent;
+
     [HideInInspector]
     public float cost;
 

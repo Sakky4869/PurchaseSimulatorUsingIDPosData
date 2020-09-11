@@ -2106,7 +2106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &626089221
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2142,6 +2142,11 @@ MonoBehaviour:
   heatMapTexture: {fileID: 0}
   heatMapResolution: 0
   heatMapImage: {fileID: 1543266279}
+  maxValueOfAgentTraceGrid: 0
+  minValueOfAgentTraceGrid: 0
+  gridOriginTransform: {fileID: 0}
+  gridCell: {fileID: 0}
+  heatMapAlpha: 0
 --- !u!1 &647356138
 GameObject:
   m_ObjectHideFlags: 0

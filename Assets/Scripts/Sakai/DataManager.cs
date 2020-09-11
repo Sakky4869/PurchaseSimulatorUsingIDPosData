@@ -249,6 +249,7 @@ public class ProductionObject
     /// <summary>
     /// 商品の位置を保存
     /// X座標,Y座標を文字列化
+    /// 3DのときはX座標，Y座標を文字列化
     /// </summary>
     public string position;
 
@@ -300,7 +301,7 @@ public class DataManager : MonoBehaviour
     /// ID-POSデータのファイル名
     /// </summary>
     [SerializeField]
-    private string idPosDataFileName;
+    protected string idPosDataFileName;
 
     /// <summary>
     /// マップに置くオブジェクトのルート
@@ -310,7 +311,7 @@ public class DataManager : MonoBehaviour
 
     private MapManager mapManager;
 
-    private SimulationManager simulationManager;
+    protected SimulationManager simulationManager;
 
     void Start()
     {
@@ -487,6 +488,7 @@ public class DataManager : MonoBehaviour
                         // 時刻データの取り出し
                         hour = int.Parse(data[rowDatas["時台"]]);
 
+                        // コメント化理由：ID-POSデータのルートオブジェクトをメソッドの引数が渡す形式に変更したため
                         // 年月日時のデータを保存してから1人分のID-POSデータを保存
                         iDPosDataRoot.yearDatas[0].year = year;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].month = month;
@@ -497,7 +499,18 @@ public class DataManager : MonoBehaviour
                         // ここでID-POSデータを保存
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
 
-                        if(reader.EndOfStream == false)
+                        //// 年月日時のデータを保存してから1人分のID-POSデータを保存
+                        //root.yearDatas[0].year = year;
+                        //root.yearDatas[0].monthDatas[month - 1].month = month;
+                        //root.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].day = day;
+                        //root.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].hour = hour;
+                        //// 最後に出口のデータを入れる
+                        //iDPosData.productionDatas.Add(new ProductionData("exit", "0,0,0,0"));
+                        //// ここでID-POSデータを保存
+                        //root.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
+
+
+                        if (reader.EndOfStream == false)
                         {
                             // 新しくPOSデータのインスタンスを作成
                             iDPosData = new IDPosData();
@@ -615,7 +628,7 @@ public class DataManager : MonoBehaviour
     /// Unityエディタで操作中のときに，ブランチ名に応じてデータファイルを作るため，ブランチ名を取得する
     /// </summary>
     /// <returns>現在のブランチ名</returns>
-    private string GetGitBranchName()
+    protected string GetGitBranchName()
     {
         using(StreamReader streamReader = new StreamReader(Application.dataPath + "/../.git/HEAD"))
         {

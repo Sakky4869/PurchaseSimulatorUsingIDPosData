@@ -186,11 +186,13 @@ public class HeatMap : MonoBehaviour
             cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
             if(heatMapIsShown == 0)
             {
-                cell.heatMapCellImage.gameObject.SetActive(true);
+                //cell.heatMapCellImage.gameObject.SetActive(true);
+                cell.heatMapImageParent.SetActive(true);
             }
             else
             {
-                cell.heatMapCellImage.gameObject.SetActive(false);
+                //cell.heatMapCellImage.gameObject.SetActive(false);
+                cell.heatMapImageParent.SetActive(false);
             }
         }
 

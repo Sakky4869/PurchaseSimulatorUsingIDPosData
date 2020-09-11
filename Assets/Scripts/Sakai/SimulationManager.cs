@@ -9,15 +9,10 @@ using UnityEngine.UI;
 public class SimulationManager : MonoBehaviour
 {
     /// <summary>
-    /// 商品の名前と位置情報を紐づけて保存する辞書配列
-    /// </summary>
-    private Dictionary<string, Vector2> productPositions;
-
-    /// <summary>
     /// 
     /// </summary>
     [SerializeField]
-    private List<Production> productions;
+    protected List<Production> productions;
 
     private List<Link> links;
 
@@ -27,18 +22,18 @@ public class SimulationManager : MonoBehaviour
     public float simulationSpeed { get { return Time.timeScale; } set { Time.timeScale = value; } }
 
     [SerializeField]
-    private Button startSimulationButton;
+    protected Button startSimulationButton;
 
     //private Production nearestProductionFromEntrance;
 
     [SerializeField]
-    private Customer customerPrefab;
+    protected Customer customerPrefab;
 
     [SerializeField]
-    private MapManager mapManager;
+    protected MapManager mapManager;
 
     [SerializeField]
-    private RectTransform entrance;
+    protected RectTransform entrance;
 
     /// <summary>
     /// 現在の時刻
@@ -61,16 +56,17 @@ public class SimulationManager : MonoBehaviour
     private DataManager dataManager;
 
     [SerializeField]
-    private Text timeText;
+    protected Text timeText;
 
-    private Config config;
+    protected Config config;
 
     [SerializeField, Range(0, 1)]
-    private float timeScale;
+    protected float timeScale;
 
     void Start()
     {
         minuteCount = 0;
+        
         dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
@@ -110,7 +106,7 @@ public class SimulationManager : MonoBehaviour
     /// 時刻のカウント
     /// 
     /// </summary>
-    private void CountTime()
+    protected void CountTime()
     {
         timeText.text = currentTime;
 
@@ -248,7 +244,7 @@ public class SimulationManager : MonoBehaviour
         StartCoroutine(Simulate(iDPosDataRoot));
     }
 
-    private IEnumerator Simulate(IDPosDataRoot iDPosDataRoot)
+    protected IEnumerator Simulate(IDPosDataRoot iDPosDataRoot)
     {
         foreach(IdPosYear idPosYear in iDPosDataRoot.yearDatas)
         {
@@ -328,7 +324,7 @@ public class SimulationManager : MonoBehaviour
     /// 顧客を生成する
     /// </summary>
     /// <param name="metaDatas">購入した商品のデータ</param>
-    private void InstantiateCustomer(List<ProductionData> metaDatas)
+    protected virtual void InstantiateCustomer(List<ProductionData> metaDatas)
     {
         // 顧客のオブジェクトを生成
         Customer customer = Instantiate(customerPrefab, transform.position, Quaternion.identity, mapManager.productionRoot);

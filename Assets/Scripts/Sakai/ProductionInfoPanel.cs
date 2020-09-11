@@ -11,31 +11,31 @@ public class ProductionInfoPanel : MonoBehaviour
     /// 部門のInputField
     /// </summary>
     [SerializeField]
-    private InputField bumonInput;
+    protected InputField bumonInput;
 
     /// <summary>
     /// AUのInputField
     /// </summary>
     [SerializeField]
-    private InputField auInput;
+    protected InputField auInput;
     
     /// <summary>
     /// ラインのInputField
     /// </summary>
     [SerializeField]
-    private InputField lineInput;
+    protected InputField lineInput;
 
     /// <summary>
     /// クラスのInputField
     /// </summary>
     [SerializeField]
-    private InputField classInput;
+    protected InputField classInput;
     
     /// <summary>
     /// 商品名のInputField
     /// </summary>
     [SerializeField]
-    private InputField nameInput;
+    protected InputField nameInput;
 
 
     [SerializeField]
@@ -44,7 +44,10 @@ public class ProductionInfoPanel : MonoBehaviour
     /// <summary>
     /// マウスが上にあるかどうか
     /// </summary>
-    private bool mouseIn;
+    protected bool mouseIn;
+
+    [HideInInspector]
+    public RectTransform myRectTransform;
 
 
     void Start()
@@ -54,6 +57,7 @@ public class ProductionInfoPanel : MonoBehaviour
         auInput.onEndEdit.AddListener(EndEditProductionMetaData);
         lineInput.onEndEdit.AddListener(EndEditProductionMetaData);
         classInput.onEndEdit.AddListener(EndEditProductionMetaData);
+        myRectTransform = GetComponent<RectTransform>();
 
         //nameInput.
         mouseIn = false;
@@ -123,15 +127,17 @@ public class ProductionInfoPanel : MonoBehaviour
         //Debug.Log("値の設定");
     }
 
-    private void EndEditProductionName(string data)
+    protected void EndEditProductionName(string data)
     {
+        Debug.Log("商品名変更");
         production.productionName = nameInput.text;
         if (production.productionName.Contains("\r"))
             production.productionName.Replace("\r", "");
     }
 
-    private void EndEditProductionMetaData(string data)
+    protected void EndEditProductionMetaData(string data)
     {
+        Debug.Log("商品のメタデータ変更");
         // 部門・AU・ライン・クラスが一致して，商品名が異なるものがあったので，
         // 商品名も含めてメタデータにしようとしたが，商品名の最後になぜか改行コードが入るので，いったんとりやめ
         production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text;// + "," + nameInput.text;

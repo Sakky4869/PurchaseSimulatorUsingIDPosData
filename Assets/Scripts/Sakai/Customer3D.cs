@@ -32,7 +32,7 @@ public class Customer3D : MonoBehaviour
 
     void Start()
     {
-        
+        simulationManager3D = GameObject.Find("SimulationManager3D").GetComponent<SimulationManager3D>();
     }
 
     void Update()

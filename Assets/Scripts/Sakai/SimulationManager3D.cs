@@ -70,7 +70,10 @@ public class SimulationManager3D : SimulationManager
     {
         // 顧客オブジェクトを生成
         Customer3D customer3D = Instantiate(customer3DPrefab, transform.position, Quaternion.identity);
+        Vector3 pos = entrance.position;
+
         customer3D.transform.position = entrance3D.position;
+
 
         // 購入した商品データから経路を探索し，顧客のオブジェクトに登録
         customer3D.RegisterTracePositions(SearchRoute(metaDatas));

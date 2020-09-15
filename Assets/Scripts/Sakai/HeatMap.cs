@@ -85,8 +85,12 @@ public class HeatMap : MonoBehaviour
 
     void Update()
     {
+        // Pボタンでヒートマップを可視化
         if (Input.GetKeyDown(KeyCode.P))
         {
+            // Unityの再生を止めるときにヒートマップが一瞬映るので，それを防ぐ
+            if (Input.GetKey(KeyCode.LeftControl))
+                return;
             ShowHeatMap();
         }
     }
@@ -107,6 +111,7 @@ public class HeatMap : MonoBehaviour
 				GameObject cellObject = Instantiate(gridCell.gameObject, pos, Quaternion.identity);
                 GridCell cell = cellObject.GetComponent<GridCell>();
                 gridCells.Add(cell);
+                cellObject.transform.SetParent(gridOriginTransform);
 				cell.x = x;
 				cell.y = y;
                 cell.Init();
@@ -114,47 +119,48 @@ public class HeatMap : MonoBehaviour
 		}
 	}
 
-    private void SetLinkOfCells()
-    {
-        RaycastHit hit;
-        foreach(GridCell gridCell in gridCells)
-        {
-            Ray[] rays = new Ray[]
-            {
-                new Ray(transform.position, transform.forward),
-                new Ray(transform.position, - transform.forward),
-                new Ray(transform.position, transform.right),
-                new Ray(transform.position, - transform.right)
-            };
-            for(int i = 0; i < rays.Length; i++)
-            {
-                if(Physics.Raycast(rays[i], out hit, 5f))
-                {
-                    Debug.Log("hit");
-                    if(hit.collider.tag == "Obstacle")
-                    {
-                        switch (i)
-                        {
-                            case 0:
-                                gridCell.forwardCell = hit.collider.GetComponent<GridCell>();
-                                break;
-                            case 1:
-                                gridCell.backwardCell = hit.collider.GetComponent<GridCell>();
-                                break;
-                            case 2:
-                                gridCell.rightCell = hit.collider.GetComponent<GridCell>();
-                                break;
-                            case 3:
-                                gridCell.leftCell = hit.collider.GetComponent<GridCell>();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    // コメント化理由：ヒートマップのグリッドを用いて経路探索をしようとしたが，NavMeshでやることになったので不要
+    //private void SetLinkOfCells()
+    //{
+    //    RaycastHit hit;
+    //    foreach(GridCell gridCell in gridCells)
+    //    {
+    //        Ray[] rays = new Ray[]
+    //        {
+    //            new Ray(transform.position, transform.forward),
+    //            new Ray(transform.position, - transform.forward),
+    //            new Ray(transform.position, transform.right),
+    //            new Ray(transform.position, - transform.right)
+    //        };
+    //        for(int i = 0; i < rays.Length; i++)
+    //        {
+    //            if(Physics.Raycast(rays[i], out hit, 5f))
+    //            {
+    //                Debug.Log("hit");
+    //                if(hit.collider.tag == "Obstacle")
+    //                {
+    //                    switch (i)
+    //                    {
+    //                        case 0:
+    //                            gridCell.forwardCell = hit.collider.GetComponent<GridCell>();
+    //                            break;
+    //                        case 1:
+    //                            gridCell.backwardCell = hit.collider.GetComponent<GridCell>();
+    //                            break;
+    //                        case 2:
+    //                            gridCell.rightCell = hit.collider.GetComponent<GridCell>();
+    //                            break;
+    //                        case 3:
+    //                            gridCell.leftCell = hit.collider.GetComponent<GridCell>();
+    //                            break;
+    //                        default:
+    //                            break;
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     /// <summary>
     /// グリッド配列の情報更新

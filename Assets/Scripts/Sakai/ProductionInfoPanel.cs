@@ -158,11 +158,13 @@ public class ProductionInfoPanel : MonoBehaviour
     public void OnPointerEnter()
     {
         mouseIn = true;
+        Debug.Log("pointer enter");
     }
 
     public void OnPointerExit()
     {
         mouseIn = false;
+        Debug.Log("pointer exit");
     }
 
 

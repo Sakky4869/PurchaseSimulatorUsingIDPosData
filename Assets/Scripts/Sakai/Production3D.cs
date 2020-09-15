@@ -44,7 +44,7 @@ public class Production3D : MonoBehaviour
     /// <summary>
     /// 商品の情報を入力するパネル
     /// </summary>
-    [HideInInspector]
+    //[HideInInspector]
     public ProductionInfoPanel3D infoPanel;
 
 
@@ -93,17 +93,17 @@ public class Production3D : MonoBehaviour
         // 設置モードごとで挙動を変える
         switch (Config.installMode)
         {
-            // 削除モードのとき
-            case InstallMode.DELETE:
-
-                // 情報パネルを削除
-                if (infoPanel != null)
-                    Destroy(infoPanel);
+            // コメント化理由：これを実行するのはOnPointerClickのところ
+            //// 削除モードのとき
+            //case InstallMode.DELETE:
+            //    // 情報パネルを削除
+            //    if (infoPanel != null)
+            //        Destroy(infoPanel);
                 
-                //シンプルに削除 
-                Destroy(gameObject);
+            //    //シンプルに削除 
+            //    Destroy(gameObject);
 
-                break;
+            //    break;
             // 捜査モードのとき
             case InstallMode.OPERATION:
 
@@ -153,7 +153,8 @@ public class Production3D : MonoBehaviour
         if(Config.installMode == InstallMode.OPERATION)
         {
             // マウスの座標を代入
-            transform.localPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //transform.localPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // Y座標を固定
             Vector3 localPos = transform.localPosition;
@@ -213,6 +214,18 @@ public class Production3D : MonoBehaviour
                 Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
                 infoPanel.myRectTransform.position = pos;
                 infoPanel.gameObject.SetActive(true);
+                //Debug.Log("show info panel");
+            }
+        }else if(Config.installMode == InstallMode.DELETE)
+        {
+            if (Input.GetMouseButtonUp(0))
+            {
+                // 情報パネルを削除
+                if (infoPanel != null)
+                    Destroy(infoPanel);
+
+                //シンプルに削除 
+                Destroy(gameObject);
             }
         }
     }

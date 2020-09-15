@@ -198,6 +198,7 @@ public class DataManager3D : DataManager
         if (systemDataFileUser != null)
         {
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + "_3D.json");
+            //Debug.Log("got branch name");
         }
         else
         {
@@ -206,12 +207,14 @@ public class DataManager3D : DataManager
 
         if (fileInfo.Exists == false)
         {
+            //Debug.Log("file not exists");
             return;
         }
 
         using(StreamReader reader = new StreamReader(fileInfo.FullName))
         {
             string data = reader.ReadToEnd();
+            //Debug.Log(data);
             systemData3D = JsonUtility.FromJson<SystemData3D>(data);
         }
         RestoreSystem();
@@ -230,14 +233,14 @@ public class DataManager3D : DataManager
             return;
         }
 
-        
+        //Debug.Log("production count : " + systemData3D.productionObjects3D.Count);
 
         foreach(ProductionObject productionObject in systemData3D.productionObjects3D)
         {
             mapManager3D.InstantiateProduction3D(productionObject);
         }
 
-        Debug.Log("restore system data");
+        //Debug.Log("restore system data");
         
     }
 

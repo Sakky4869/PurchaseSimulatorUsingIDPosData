@@ -41,7 +41,13 @@ public class SimulationManager3D : SimulationManager
             return;
 
         if (Config.operationMode == OperationMode.CONFIG)
+        {
             isInSimulation = false;
+            foreach (Production3D production3D in productions3D)
+            {
+                production3D.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
 
         CountTime();
     }
@@ -58,6 +64,11 @@ public class SimulationManager3D : SimulationManager
         if (productions3D == null || productions3D.Count == 0)
             productions3D = GetProductions();
 
+        foreach(Production3D production3D in productions3D)
+        {
+            production3D.GetComponent<MeshRenderer>().enabled = false;
+        }
+
         StartCoroutine(Simulate(iDPosDataRoot));
     }
 
@@ -70,7 +81,7 @@ public class SimulationManager3D : SimulationManager
     {
         // 顧客オブジェクトを生成
         Customer3D customer3D = Instantiate(customer3DPrefab, transform.position, Quaternion.identity);
-        Vector3 pos = entrance.position;
+        Vector3 pos = entrance3D.position;
 
         customer3D.transform.position = entrance3D.position;
 
@@ -122,17 +133,33 @@ public class SimulationManager3D : SimulationManager
             }
         }
 
+        //foreach(Production3D p in productions)
+        //{
+        //    Debug.Log(p.productionName);
+        //}
+        
+        //return null;
+
         // この時点で購入した商品のオブジェクトデータを取得できているので，
         // 入り口に近い順にソートをする
 
         Dictionary<float, Production3D> distanceDictionary = new Dictionary<float, Production3D>();
         foreach(Production3D production in productions)
         {
+            float dist = Vector3.Distance(production.transform.position, entrance3D.position);
             // 商品ごとに入り口からの距離を計算して保存
-            distanceDictionary.Add(Vector3.Distance(production.transform.position, entrance3D.position), production);
+            if (distanceDictionary.ContainsKey(dist) == false)
+                distanceDictionary.Add(dist, production);
+            //else
+            //{
+            //    dist = float.Parse(dist.ToString() + "1");
+            //    distanceDictionary.Add(dist, production);
+            //}
         }
 
-        List<float> distances = new List<float>(distanceDictionary.Keys.ToArray<float>());
+        //Debug.Log(distanceDictionary.Keys);
+
+        List<float> distances = new List<float>(distanceDictionary.Keys.ToArray());
         // 小さい順に並べ替え
         distances.Sort();
 
@@ -145,6 +172,8 @@ public class SimulationManager3D : SimulationManager
         {
             productionQueue.Enqueue(distanceDictionary[dist]);
         }
+
+        //Debug.Log("productin queue count : " + productionQueue.Count);
 
         return productionQueue;
     }

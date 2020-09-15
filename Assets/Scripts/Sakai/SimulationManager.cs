@@ -47,10 +47,10 @@ public class SimulationManager : MonoBehaviour
     /// </summary>
     public int minuteCount;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isInSimulation;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isPausedSimulation;
 
     private DataManager dataManager;

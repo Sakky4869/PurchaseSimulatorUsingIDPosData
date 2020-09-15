@@ -28,6 +28,9 @@ public class MapManager3D : MonoBehaviour
     [SerializeField]
     private RectTransform canvas;
 
+    [SerializeField]
+    private float convertScaleFrom2DTo3D;
+
 
     void Start()
     {
@@ -71,12 +74,19 @@ public class MapManager3D : MonoBehaviour
     {
         // 位置決め
         string[] positionData = productionObject.position.Split(',');
-        Vector3 pos = new Vector3(float.Parse(positionData[0]), 6, float.Parse(positionData[1]));
+        // コメント化理由：2Dから3Dへの変換をするときに，若干位置がずれるので修正
+        Vector3 pos = new Vector3(float.Parse(positionData[0]), 0, float.Parse(positionData[1]));
+        //Vector3 pos = new Vector3(float.Parse(positionData[0]) / convertScaleFrom2DTo3D, 0, float.Parse(positionData[1]) / convertScaleFrom2DTo3D);
         Production3D production3D = Instantiate(production3DPrefab, pos, Quaternion.identity);
         production3D.transform.SetParent(productionObjectRoot);
         production3D.transform.localPosition = pos;
         // 商品情報代入
         production3D.productionName = productionObject.productionData.productionName;
+        if (production3D.productionName == "exit")
+        {
+            // 出口用商品だったら，ゲームオブジェクトのタグをexitに設定
+            production3D.gameObject.tag = "Exit";
+        }
         production3D.metaData = productionObject.productionData.productionMetaData;
         production3D.productionId = productionObject.productionId;
         // 情報パネルの生成と商品オブジェクトへのセット
@@ -86,6 +96,7 @@ public class MapManager3D : MonoBehaviour
         panel3D.myRectTransform.transform.position = Camera.main.WorldToScreenPoint(production3D.transform.position);
         panel3D.production3D = production3D;
         production3D.infoPanel = panel3D;
+        production3D.SetValueToInfoPanel();
         production3D.infoPanel.gameObject.SetActive(false);
     }
 

@@ -6,11 +6,11 @@ using UnityEngine.AI;
 public class Customer3D : MonoBehaviour
 {
 
-    [HideInInspector]
+    //[HideInInspector]
     public Queue<Production3D> traceProductions3D;
 
-    [SerializeField]
-    private NavMeshAgent agent;
+    //[SerializeField]
+    public NavMeshAgent agent;
 
     [SerializeField]
     private List<string> traceProductionList;
@@ -18,6 +18,7 @@ public class Customer3D : MonoBehaviour
     [HideInInspector]
     public SimulationManager3D simulationManager3D;
 
+    [SerializeField]
     private Production3D targetProduction3D;
 
     [SerializeField]
@@ -30,6 +31,8 @@ public class Customer3D : MonoBehaviour
 
     private Transform exitTransform;
 
+    //public int traceProducitonCount { get { return traceProductions3D.Count; } set { } }
+
     void Start()
     {
         simulationManager3D = GameObject.Find("SimulationManager3D").GetComponent<SimulationManager3D>();
@@ -41,7 +44,7 @@ public class Customer3D : MonoBehaviour
             return;
         if (simulationManager3D.isInSimulation == false)
             return;
-        if (simulationManager3D.isPausedSimulation == false)
+        if (simulationManager3D.isPausedSimulation == true)
             return;
 
         if(targetProduction3D == null)
@@ -52,7 +55,19 @@ public class Customer3D : MonoBehaviour
             }
             else
             {
-                exitTransform = GameObject.FindGameObjectWithTag("Exit").transform;
+                if(exitTransform == null)
+                    exitTransform = GameObject.FindGameObjectWithTag("Exit").transform;
+                agent.SetDestination(exitTransform.position);
+                if (agent.pathPending)
+                    return;
+                if(GetDistanceToTargetObject() > achievedDistance)
+                {
+                    UpdatePosition();
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
         else
@@ -80,6 +95,7 @@ public class Customer3D : MonoBehaviour
     public void StartSimulation3D()
     {
         isShopping = true;
+        agent.enabled = true;
     }
 
     public void RegisterTracePositions(Queue<Production3D> productionQueue)
@@ -96,6 +112,8 @@ public class Customer3D : MonoBehaviour
             traceProductions3D.Enqueue(production3D);
             traceProductionList.Add(production3D.metaData + " " + production3D.productionName);
         }
+
+        //Debug.Log("trace production 3D count : " + traceProductions3D.Count);
     }
 
 
@@ -105,7 +123,15 @@ public class Customer3D : MonoBehaviour
     /// <returns>到達目標の商品オブジェクトまでの距離</returns>
     private float GetDistanceToTargetObject()
     {
-        Vector3 dist = targetProduction3D.transform.position - transform.position;
+        Vector3 dist;
+        if (targetProduction3D)
+        {
+            dist = targetProduction3D.transform.position - transform.position;
+        }
+        else
+        {
+            dist = exitTransform.position - transform.position;
+        }
         dist.y = 0;
         return Vector3.Magnitude(dist);
     }

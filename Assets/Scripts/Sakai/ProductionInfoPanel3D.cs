@@ -10,7 +10,7 @@ public class ProductionInfoPanel3D : ProductionInfoPanel
 
     void Start()
     {
-        Debug.Log("call start");
+        //Debug.Log("call start");
         nameInput.onEndEdit.AddListener(EndEditProductionName);
         bumonInput.onEndEdit.AddListener(EndEditProductionMetaData);
         auInput.onEndEdit.AddListener(EndEditProductionMetaData);

@@ -162,6 +162,7 @@ public class SimulationManager : MonoBehaviour
                 if (data[3] == 24)
                 {
                     data[3] = 0;
+                    data[2]++;
                 }
                 if (customerCount == 0)
                 {
@@ -320,7 +321,7 @@ public class SimulationManager : MonoBehaviour
                                 {
                                     flag = true;
 
-                                    //Debug.Log(currentTime + " , " + iDPosData.entranceTime);
+                                    Debug.Log("enter");
                                     customerCount++;
                                     InstantiateCustomer(iDPosData.productionDatas);
 

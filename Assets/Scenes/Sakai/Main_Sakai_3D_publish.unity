@@ -31669,7 +31669,7 @@ MonoBehaviour:
   timeText: {fileID: 22882768}
   timeScale: 1
   customerCount: 0
-  simulationSkipHour: 01010101010101010101010101010101010000000000
+  simulationSkipHour: 00010101010101010101010101010101010101010000
   productions3D: []
   customer3DPrefab: {fileID: 2403420113656759714, guid: caa89c11969b6d2409e84d864a6617cb,
     type: 3}

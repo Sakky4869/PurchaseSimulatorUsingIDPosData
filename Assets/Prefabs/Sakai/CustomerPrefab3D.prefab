@@ -150,5 +150,6 @@ MonoBehaviour:
   agent: {fileID: 2403420113656759713}
   traceProductionList: []
   simulationManager3D: {fileID: 0}
-  moveSpeed: 150
+  targetProduction3D: {fileID: 0}
+  moveSpeed: 200
   achievedDistance: 10

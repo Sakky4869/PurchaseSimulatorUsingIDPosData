@@ -523,7 +523,7 @@ public class DataManager : MonoBehaviour
                 }
                 lineCount++;
             }
-
+            Debug.Log(lineCount);
         }
 
 

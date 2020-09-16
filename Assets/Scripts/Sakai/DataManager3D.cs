@@ -198,6 +198,7 @@ public class DataManager3D : DataManager
         if (systemDataFileUser != null)
         {
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + "_3D.json");
+            //fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + "Nakamura" + "_3D.json");
             //Debug.Log("got branch name");
         }
         else

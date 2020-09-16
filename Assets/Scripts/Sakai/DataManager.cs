@@ -436,7 +436,10 @@ public class DataManager : MonoBehaviour
                             d = d[1].ToString();
                         string h = data[rowDatas["時台"]];
                         // シミュレーションの開始時の時刻を設定
+                        // 時間単位
                         simulationManager.currentTime = y + ":" + m + ":" + d + ":" + h + ":0";
+                        // 分単位
+                        //simulationManager.currentTime = y + ":" + m + ":" + d + ":" + h + ":0:0";
                     }
                     // それ以降，同じ人のデータなら商品リストに追加
                     else if(iDPosData.kakouCode == kakouCode)
@@ -523,7 +526,7 @@ public class DataManager : MonoBehaviour
                 }
                 lineCount++;
             }
-            Debug.Log(lineCount);
+            //Debug.Log(lineCount);s
         }
 
 
@@ -547,6 +550,7 @@ public class DataManager : MonoBehaviour
                         int enterCount = idPosHour.iDPosDatas.Count;
                         if (enterCount == 0)
                             continue;
+                        //Debug.Log(idPosHour.hour + " : " + enterCount);
 
                         // 1か月60分
                         // 1日2分ー＞120秒
@@ -554,7 +558,8 @@ public class DataManager : MonoBehaviour
                         // 1分5フレーム
 
                         // 出現間隔を割り出し　単位は分
-                        int baseTime = 60 / enterCount;
+                        float baseTime = 60f / enterCount;
+                        //Debug.Log(baseTime + " , " + enterCount);
 
                         for(int i = 0; i < idPosHour.iDPosDatas.Count; i++)
                         {
@@ -562,7 +567,7 @@ public class DataManager : MonoBehaviour
                                 + idPosMonth.month + ":"
                                 + idPosDay.day + ":"
                                 + idPosHour.hour + ":"
-                                + baseTime * i;
+                                + (int)(baseTime * i);
                             //Debug.Log(idPosHour.iDPosDatas[i].entranceTime);
                         }
 

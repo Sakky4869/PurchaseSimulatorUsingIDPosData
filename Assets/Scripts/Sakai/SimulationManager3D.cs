@@ -16,11 +16,22 @@ public class SimulationManager3D : SimulationManager
     [SerializeField]
     private Transform entrance3D;
 
+    //private int currentPriority;
+
+    //private int exitCount;
+
+    //public bool isPathPending;
+
+    //public int writerAgentId;
+
+    private Coroutine simulationCoroutine;
+
 
     void Start()
     {
         dataManager3D = GameObject.Find("DataManager3D").GetComponent<DataManager3D>();
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
+        //timeScale = 5;
     }
 
     void Update()
@@ -50,12 +61,24 @@ public class SimulationManager3D : SimulationManager
         }
 
         CountTime();
+        //Debug.Log("exit count : " + exitCount);
         //Debug.Log("current time : " + currentTime);
     }
 
 
     private void StartSimulation(IDPosDataRoot iDPosDataRoot)
     {
+        if (productions3D == null || productions3D.Count == 0)
+            productions3D = GetProductions();
+
+        foreach (Production3D production3D in productions3D)
+        {
+            production3D.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        if (simulationCoroutine != null)
+            return;
+
         // 時刻を指定モードのときは，時刻を指定時刻にスキップ
         if (Config.isSpecifiedSimulation)
         {
@@ -65,12 +88,9 @@ public class SimulationManager3D : SimulationManager
         if (productions3D == null || productions3D.Count == 0)
             productions3D = GetProductions();
 
-        foreach(Production3D production3D in productions3D)
-        {
-            production3D.GetComponent<MeshRenderer>().enabled = false;
-        }
+        
 
-        StartCoroutine(Simulate(iDPosDataRoot));
+        simulationCoroutine = StartCoroutine(Simulate(iDPosDataRoot));
     }
 
     /// <summary>
@@ -109,6 +129,20 @@ public class SimulationManager3D : SimulationManager
         }
         return list;
     }
+
+
+    //public int GetPriorityOfNavmeshAgent()
+    //{
+    //    currentPriority++;
+    //    if (currentPriority == 100)
+    //        currentPriority = 0;
+    //    return currentPriority;
+    //}
+
+    //public void AddExit()
+    //{
+    //    exitCount++;
+    //}
 
 
     /// <summary>

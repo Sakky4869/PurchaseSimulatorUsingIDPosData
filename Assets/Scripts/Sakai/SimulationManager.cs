@@ -47,6 +47,11 @@ public class SimulationManager : MonoBehaviour
     /// </summary>
     public int minuteCount;
 
+    /// <summary>
+    /// 1秒のカウント
+    /// </summary>
+    public int secondCount;
+
     //[HideInInspector]
     public bool isInSimulation;
 
@@ -71,7 +76,7 @@ public class SimulationManager : MonoBehaviour
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
 
-        Time.timeScale = 5;
+        //Time.timeScale = 5;
     }
 
     void Update()
@@ -112,7 +117,7 @@ public class SimulationManager : MonoBehaviour
         timeText.text = currentTime;
 
         minuteCount++;
-        if (minuteCount > 5)
+        if (minuteCount > 8)
         {
             minuteCount = 0;
             //Debug.Log(currentTime);
@@ -285,7 +290,7 @@ public class SimulationManager : MonoBehaviour
                                 {
                                     flag = true;
 
-                                    //Debug.Log("入店");
+                                    //Debug.Log(currentTime + " , " + iDPosData.entranceTime);
 
                                     InstantiateCustomer(iDPosData.productionDatas);
 
@@ -316,10 +321,20 @@ public class SimulationManager : MonoBehaviour
         int[] currentTimeInt = current.Split(':').Select(int.Parse).ToArray();
         int[] targetTimeInt = target.Split(':').Select(int.Parse).ToArray();
 
+        DateTime c = new DateTime(currentTimeInt[0], currentTimeInt[1], currentTimeInt[2], currentTimeInt[3], currentTimeInt[4], 0);
+        DateTime t = new DateTime(targetTimeInt[0], targetTimeInt[1], targetTimeInt[2], targetTimeInt[3], targetTimeInt[4], 0);
+
         for (int i = 0; i < currentTimeInt.Length; i++)
         {
-            if (currentTimeInt[i] > targetTimeInt[i])
+            //if (currentTimeInt[i] > targetTimeInt[i])
+            //{
+            //    Debug.Log("over " + targetTimeInt[i]);
+            //    return true;
+            //}
+            if(c.CompareTo(t) > 0)
+            {
                 return true;
+            }
         }
 
         return false;

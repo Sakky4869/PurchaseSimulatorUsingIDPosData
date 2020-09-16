@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.3
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
-    minRegionArea: 10
+    minRegionArea: 5
     manualCellSize: 1
-    cellSize: 0.1
+    cellSize: 0.2
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -24701,7 +24701,7 @@ MonoBehaviour:
         hourData: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
       - day: 0
         hourData: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  idPosDataFileName: df_201710_age60_9zi
+  idPosDataFileName: df_201710_age60
   mapObjectRoot: {fileID: 0}
   systemData3D:
     operationMode: 0
@@ -27357,7 +27357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1135076348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -571.5, y: 6, z: -208.36}
+  m_LocalPosition: {x: -576, y: 6, z: -199.1}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 0}

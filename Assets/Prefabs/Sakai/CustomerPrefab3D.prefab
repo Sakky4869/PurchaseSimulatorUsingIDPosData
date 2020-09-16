@@ -151,5 +151,6 @@ MonoBehaviour:
   traceProductionList: []
   simulationManager3D: {fileID: 0}
   targetProduction3D: {fileID: 0}
-  moveSpeed: 200
-  achievedDistance: 10
+  moveSpeed: 500
+  achievedDistance: 200
+  pathpending: 0

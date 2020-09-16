@@ -29,7 +29,10 @@ public class Customer3D : MonoBehaviour
     [SerializeField]
     private float achievedDistance;
 
+    [SerializeField]
     private Transform exitTransform;
+    [SerializeField]
+    private bool pathpending;
 
     //public int traceProducitonCount { get { return traceProductions3D.Count; } set { } }
 
@@ -76,7 +79,11 @@ public class Customer3D : MonoBehaviour
             {
                 agent.SetDestination(targetProduction3D.transform.position);
                 if (agent.pathPending)
+                {
+                    pathpending = agent.pathPending;
                     return;
+                }
+                    
                 if(agent.path.corners != null)
                 {
                     if(GetDistanceToTargetObject() > achievedDistance)

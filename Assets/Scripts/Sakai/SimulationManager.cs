@@ -71,12 +71,7 @@ public class SimulationManager : MonoBehaviour
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
 
-//<<<<<<< HEAD
         Time.timeScale = 5;
-//=======
-        //Time.timeScale = timeScale;
-//>>>>>>> sakai
-        
     }
 
     void Update()
@@ -117,7 +112,7 @@ public class SimulationManager : MonoBehaviour
         timeText.text = currentTime;
 
         minuteCount++;
-        if (minuteCount > 2)
+        if (minuteCount > 5)
         {
             minuteCount = 0;
             //Debug.Log(currentTime);
@@ -277,12 +272,8 @@ public class SimulationManager : MonoBehaviour
                                     continue;
                                 }
                             }
-//<<<<<<< HEAD
-                            Debug.Log("入店:" + iDPosData.entranceTime);
-//=======
                             //Debug.Log(currentTime + " , " + iDPosData.entranceTime);
                             //Debug.Log("入店:" + iDPosData.entranceTime);
-//>>>>>>> sakai
                             bool flag = false;
                             do
                             {

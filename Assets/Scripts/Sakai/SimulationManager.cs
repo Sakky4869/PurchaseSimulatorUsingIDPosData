@@ -159,7 +159,11 @@ public class SimulationManager : MonoBehaviour
             // 時がこえる
             if (data[3] >= 22)
             {
-                if(customerCount == 0)
+                if (data[3] == 24)
+                {
+                    data[3] = 0;
+                }
+                if (customerCount == 0)
                 {
                     data[3] = 9;
                     data[2]++;

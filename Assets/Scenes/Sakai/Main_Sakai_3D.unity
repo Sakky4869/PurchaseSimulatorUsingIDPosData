@@ -27396,7 +27396,10 @@ MonoBehaviour:
   heatMapResolution: 0
   heatMapImage: {fileID: 0}
   maxValueOfAgentTraceGrid: 0
+  maxValueOfAgentTraceGridFixed: 0
   minValueOfAgentTraceGrid: 0
+  minValueOfAgentTraceGridFixed: 0
+  totalValueOfAgentTraceGrid: 0
   gridOriginTransform: {fileID: 1519948322}
   gridCell: {fileID: 5867627284336501548, guid: b5255bf004d7c4c43b8764d55deddbe9,
     type: 3}
@@ -31660,10 +31663,13 @@ MonoBehaviour:
   entrance: {fileID: 0}
   currentTime: 
   minuteCount: 0
+  secondCount: 0
   isInSimulation: 0
   isPausedSimulation: 0
   timeText: {fileID: 22882768}
   timeScale: 1
+  customerCount: 0
+  simulationSkipHour: 01010101010101010100000000000000000000000000
   productions3D: []
   customer3DPrefab: {fileID: 2403420113656759714, guid: caa89c11969b6d2409e84d864a6617cb,
     type: 3}

@@ -138,6 +138,7 @@ public class Customer3D : MonoBehaviour
                 else
                 {
                     //simulationManager3D.AddExit();
+                    simulationManager3D.customerCount--;
                     Destroy(gameObject);
                 }
             }

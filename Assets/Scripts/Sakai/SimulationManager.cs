@@ -68,6 +68,11 @@ public class SimulationManager : MonoBehaviour
     [SerializeField, Range(0, 1)]
     protected float timeScale;
 
+    [HideInInspector]
+    public int customerCount;
+
+    public bool[] simulationSkipHour;
+
     void Start()
     {
         minuteCount = 0;
@@ -137,11 +142,25 @@ public class SimulationManager : MonoBehaviour
                 // 時を進める
                 data[3]++;
             }
-            // 時がこえる
-            if (data[3] == 24)
+
+            if(data[3] < 22)
             {
-                data[3] = 0;
-                data[2]++;
+                if(simulationSkipHour[data[3]] == true)
+                {
+                    data[3]++;
+                    data[4] = 0;
+                }
+            }
+
+            // 時がこえる
+            if (data[3] >= 22)
+            {
+                if(customerCount == 0)
+                {
+                    data[3] = 9;
+                    data[2]++;
+                    data[4] = 0;
+                }
             }
 
             // 日がこえる
@@ -266,6 +285,9 @@ public class SimulationManager : MonoBehaviour
                     {
                         if (idPosHour.hour == 0)
                             continue;
+                        if (simulationSkipHour[idPosHour.hour] == true)
+                            continue;
+                        //Debug.Log(idPosHour.hour);
                         foreach(IDPosData iDPosData in idPosHour.iDPosDatas)
                         {
                             // 時刻指定があった場合は、指定時刻になるまでスキップ
@@ -291,7 +313,7 @@ public class SimulationManager : MonoBehaviour
                                     flag = true;
 
                                     //Debug.Log(currentTime + " , " + iDPosData.entranceTime);
-
+                                    customerCount++;
                                     InstantiateCustomer(iDPosData.productionDatas);
 
                                 }

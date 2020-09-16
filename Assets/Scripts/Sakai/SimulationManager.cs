@@ -148,6 +148,10 @@ public class SimulationManager : MonoBehaviour
                 if(simulationSkipHour[data[3]] == true)
                 {
                     data[3]++;
+                    if(data[3] == 24)
+                    {
+                        data[3] = 0;
+                    }
                     data[4] = 0;
                 }
             }

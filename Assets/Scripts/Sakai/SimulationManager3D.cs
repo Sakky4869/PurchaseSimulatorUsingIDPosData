@@ -32,6 +32,7 @@ public class SimulationManager3D : SimulationManager
         dataManager3D = GameObject.Find("DataManager3D").GetComponent<DataManager3D>();
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
         //timeScale = 5;
+        Time.timeScale = 2;
     }
 
     void Update()

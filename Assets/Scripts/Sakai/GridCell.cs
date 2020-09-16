@@ -44,8 +44,10 @@ public class GridCell : MonoBehaviour
     /// <summary>
     /// このグリッドセルを通った回数
     /// </summary>
-    [SerializeField]
-    private int traceCount;
+    //[SerializeField]
+    public int traceCount;
+
+    public float traceCountFixed;
 
     //[SerializeField]
     //private MeshRenderer mesh;
@@ -93,6 +95,7 @@ public class GridCell : MonoBehaviour
         // グリッドのデータの最大値と最小値とこのセルの値からヒートマップでの色を計算
         float minV = minValue;
         float maxV = maxValue;
+        //float ratio = 2f * (traceCountFixed - minV) / (maxV - minV);
         float ratio = 2 * (traceCount - minV) / (maxV - minV);
         int b = (int)Mathf.Max(0, 255 * (1 - ratio));
         int r = (int)Mathf.Max(0, 255 * (ratio - 1));
@@ -115,8 +118,12 @@ public class GridCell : MonoBehaviour
         // エージェントのときに記録
         if (other.tag != "Agent")
             return;
-        traceCount++;
-        heatMap.UpdateHeatMapMatrix(x, y);
+        Customer3D customer3D = other.GetComponent<Customer3D>();
+        if(customer3D.isGetFirstProduction == true && customer3D.isGettingExit == false)
+        {
+            traceCount++;
+            heatMap.UpdateHeatMapMatrix(x, y);
+        }
         //SetGridCellImageColor(heatMap.minValueOfAgentTraceGrid, heatMap.maxValueOfAgentTraceGrid);
         
         // コメント化理由：Mesh Rendererを使わない方法でやることにしたため

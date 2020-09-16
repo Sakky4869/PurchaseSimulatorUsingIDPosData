@@ -40,6 +40,12 @@ public class Customer3D : MonoBehaviour
 
     private bool isStartedGettingPath;
 
+    [HideInInspector]
+    public bool isGetFirstProduction;
+
+    [HideInInspector]
+    public bool isGettingExit;
+
     //private float searchRouteStartTime;
 
     //[SerializeField]
@@ -87,7 +93,10 @@ public class Customer3D : MonoBehaviour
             else
             {
                 if (exitTransform == null)
+                {
                     exitTransform = GameObject.FindGameObjectWithTag("Exit").transform;
+                    isGettingExit = true;
+                }
                 //if(agent.path.corners.Length == 0 || agent.path.corners == null)
                 if(isGetPath == false)
                 {
@@ -184,6 +193,8 @@ public class Customer3D : MonoBehaviour
                     }
                     else
                     {
+                        if (isGetFirstProduction == false)
+                            isGetFirstProduction = true;
                         targetProduction3D = null;
                         isGetPath = false;
                         //searchRouteStartTime = Time.time;
@@ -210,85 +221,89 @@ public class Customer3D : MonoBehaviour
         //StartCoroutine(UpdateCoroutine());
     }
 
-    private IEnumerator UpdateCoroutine()
-    {
-        while (true)
-        {
-            if (isShopping == false)
-            {
-                yield return null;
-                continue;
-            }
-            if (simulationManager3D.isInSimulation == false)
-            {
-                yield return null;
-                //return;
-                continue;
-            }
-            if (simulationManager3D.isPausedSimulation == true)
-            {
-                yield return null;
-                //return;
-                continue;
-            }
+    //private IEnumerator UpdateCoroutine()
+    //{
+    //    while (true)
+    //    {
+    //        if (isShopping == false)
+    //        {
+    //            yield return null;
+    //            continue;
+    //        }
+    //        if (simulationManager3D.isInSimulation == false)
+    //        {
+    //            yield return null;
+    //            //return;
+    //            continue;
+    //        }
+    //        if (simulationManager3D.isPausedSimulation == true)
+    //        {
+    //            yield return null;
+    //            //return;
+    //            continue;
+    //        }
 
-            if (targetProduction3D == null)
-            {
-                if (traceProductions3D.Count != 0)
-                {
-                    targetProduction3D = traceProductions3D.Dequeue();
-                }
-                else
-                {
-                    if (exitTransform == null)
-                        exitTransform = GameObject.FindGameObjectWithTag("Exit").transform;
-                    agent.SetDestination(exitTransform.position);
-                    if (agent.pathPending)
-                    {
-                        yield return null;
-                        //return null;
-                        continue;
-                    }
-                    if (GetDistanceToTargetObject() > achievedDistance)
-                    {
-                        UpdatePosition();
-                    }
-                    else
-                    {
-                        Destroy(gameObject);
-                    }
-                }
-            }
-            else
-            {
-                if (targetProduction3D)
-                {
-                    agent.SetDestination(targetProduction3D.transform.position);
-                    if (agent.pathPending)
-                    {
-                        //pathpending = agent.pathPending;
-                        yield return null;
-                        //return;
-                        continue;
-                    }
+    //        if (targetProduction3D == null)
+    //        {
+    //            if (traceProductions3D.Count != 0)
+    //            {
+    //                targetProduction3D = traceProductions3D.Dequeue();
+    //            }
+    //            else
+    //            {
+    //                if (exitTransform == null)
+    //                    exitTransform = GameObject.FindGameObjectWithTag("Exit").transform;
+    //                agent.SetDestination(exitTransform.position);
+    //                if (agent.pathPending)
+    //                {
+    //                    yield return null;
+    //                    //return null;
+    //                    continue;
+    //                }
+    //                if (GetDistanceToTargetObject() > achievedDistance)
+    //                {
+    //                    UpdatePosition();
+    //                }
+    //                else
+    //                {
+    //                    Destroy(gameObject);
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (targetProduction3D)
+    //            {
+    //                agent.SetDestination(targetProduction3D.transform.position);
+    //                if (agent.pathPending)
+    //                {
+    //                    //pathpending = agent.pathPending;
+    //                    yield return null;
+    //                    //return;
+    //                    continue;
+    //                }
 
-                    if (agent.path.corners != null)
-                    {
-                        if (GetDistanceToTargetObject() > achievedDistance)
-                        {
-                            UpdatePosition();
-                        }
-                        else
-                        {
-                            targetProduction3D = null;
-                        }
-                    }
-                }
-            }
+    //                if (agent.path.corners != null)
+    //                {
+    //                    if (GetDistanceToTargetObject() > achievedDistance)
+    //                    {
+    //                        UpdatePosition();
+    //                    }
+    //                    else
+    //                    {
+    //                        if (isGetFirstProduction == false)
+    //                        {
+    //                            isGetFirstProduction = true;
+    //                        }
+    //                        targetProduction3D = null;
+    //                    }
+    //                }
+    //            }
+    //        }
 
-            yield return null;
-        }
-    }
+    //        yield return null;
+    //    }
+    //}
 
     public void RegisterTracePositions(Queue<Production3D> productionQueue)
     {

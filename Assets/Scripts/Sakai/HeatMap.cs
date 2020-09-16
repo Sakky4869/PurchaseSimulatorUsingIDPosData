@@ -33,7 +33,16 @@ public class HeatMap : MonoBehaviour
     public int maxValueOfAgentTraceGrid;
 
     [HideInInspector]
+    public float maxValueOfAgentTraceGridFixed;
+
+    [HideInInspector]
     public int minValueOfAgentTraceGrid;
+
+    [HideInInspector]
+    public float minValueOfAgentTraceGridFixed;
+
+    [HideInInspector]
+    public int totalValueOfAgentTraceGrid;
     
     /// <summary>
     /// ヒートマップグリッドの始点
@@ -169,8 +178,9 @@ public class HeatMap : MonoBehaviour
     /// <param name="agentPosY">エージェントのY座標</param>
     public void UpdateHeatMapMatrix(int agentPosX, int agentPosY)
     {
+        //totalValueOfAgentTraceGrid++;
         // たどったところのグリッドの値を更新
-		agentTraceGrid[agentPosY, agentPosX] ++;
+        agentTraceGrid[agentPosY, agentPosX]++;
 
         // もし現在のグリッドの最大値よりも大きかったら最小値を更新
         if (maxValueOfAgentTraceGrid < agentTraceGrid[agentPosY, agentPosX])
@@ -187,10 +197,41 @@ public class HeatMap : MonoBehaviour
 
     public void ShowHeatMap()
     {
+        //float average = (float)totalValueOfAgentTraceGrid / gridCells.Count;
+
+        //float minValue = 0, maxValue = 0;
+
+        //for(int i = 0; i < gridCells.Count; i++)
+        //{
+        //    gridCells[i].traceCountFixed = (float)gridCells[i].traceCount / average;
+
+        //    if(i == 0)
+        //    {
+        //        minValue = gridCells[i].traceCountFixed;
+        //        maxValue = gridCells[i].traceCountFixed;
+        //    }
+        //    else
+        //    {
+        //        if(minValue > gridCells[i].traceCountFixed)
+        //        {
+        //            minValue = gridCells[i].traceCountFixed;
+        //        }
+        //        if(maxValue < gridCells[i].traceCountFixed)
+        //        {
+        //            maxValue = gridCells[i].traceCountFixed;
+        //        }
+        //    }
+
+        //}
+
+        //minValueOfAgentTraceGridFixed = minValue;
+        //maxValueOfAgentTraceGridFixed = maxValue;
+        
         foreach(GridCell cell in gridCells)
         {
+            //cell.SetGridCellImageColor(minValueOfAgentTraceGridFixed, maxValueOfAgentTraceGridFixed, heatMapAlpha);
             cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
-            if(heatMapIsShown == 0)
+            if (heatMapIsShown == 0)
             {
                 //cell.heatMapCellImage.gameObject.SetActive(true);
                 cell.heatMapImageParent.SetActive(true);

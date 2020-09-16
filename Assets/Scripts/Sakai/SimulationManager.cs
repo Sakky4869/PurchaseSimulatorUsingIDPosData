@@ -271,6 +271,7 @@ public class SimulationManager : MonoBehaviour
                                     continue;
                                 }
                             }
+                            Debug.Log(currentTime + " , " + iDPosData.entranceTime);
                             //Debug.Log("入店:" + iDPosData.entranceTime);
                             bool flag = false;
                             do

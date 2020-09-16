@@ -50,6 +50,7 @@ public class SimulationManager3D : SimulationManager
         }
 
         CountTime();
+        //Debug.Log("current time : " + currentTime);
     }
 
 

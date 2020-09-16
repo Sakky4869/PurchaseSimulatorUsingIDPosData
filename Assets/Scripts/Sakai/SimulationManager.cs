@@ -71,13 +71,13 @@ public class SimulationManager : MonoBehaviour
 
         config = GameObject.Find("ConfigArea").GetComponent<Config>();
 
-        Time.timeScale = timeScale;
+        //Time.timeScale = timeScale;
         
     }
 
     void Update()
     {
-        Time.timeScale = timeScale;
+        //Time.timeScale = timeScale;
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (Config.operationMode == OperationMode.CONFIG)
@@ -97,8 +97,10 @@ public class SimulationManager : MonoBehaviour
 
         if (Config.operationMode == OperationMode.CONFIG)
             isInSimulation = false;
-
+        //Debug.Log("call");
         CountTime();
+
+        //Debug.Log("current time : " + currentTime);
         
     }
 
@@ -271,7 +273,7 @@ public class SimulationManager : MonoBehaviour
                                     continue;
                                 }
                             }
-                            Debug.Log(currentTime + " , " + iDPosData.entranceTime);
+                            //Debug.Log(currentTime + " , " + iDPosData.entranceTime);
                             //Debug.Log("入店:" + iDPosData.entranceTime);
                             bool flag = false;
                             do
@@ -280,7 +282,7 @@ public class SimulationManager : MonoBehaviour
                                 while (isInSimulation == false)
                                     yield return null;
 
-                                if (currentTime == iDPosData.entranceTime)
+                                if (IsOverTime(currentTime, iDPosData.entranceTime))//  currentTime == iDPosData.entranceTime)
                                 {
                                     flag = true;
 
@@ -309,12 +311,15 @@ public class SimulationManager : MonoBehaviour
     /// <returns></returns>
     private bool IsOverTime(string current, string target)
     {
+        if (current == target)
+            return true;
+
         int[] currentTimeInt = current.Split(':').Select(int.Parse).ToArray();
         int[] targetTimeInt = target.Split(':').Select(int.Parse).ToArray();
 
-        for(int i = 0; i < currentTimeInt.Length; i++)
+        for (int i = 0; i < currentTimeInt.Length; i++)
         {
-            if (currentTimeInt[i] >= targetTimeInt[i])
+            if (currentTimeInt[i] > targetTimeInt[i])
                 return true;
         }
 

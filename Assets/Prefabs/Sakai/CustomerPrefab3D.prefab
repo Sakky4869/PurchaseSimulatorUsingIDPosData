@@ -152,10 +152,12 @@ MonoBehaviour:
   traceProductionList: []
   simulationManager3D: {fileID: 0}
   targetProduction3D: {fileID: 0}
-  moveSpeed: 250
+  moveSpeed: 60
   achievedDistance: 20
   exitTransform: {fileID: 0}
   pathpending: 0
+  isGetFirstProduction: 0
+  isGettingExit: 0
 --- !u!54 &-8220845251652275798
 Rigidbody:
   m_ObjectHideFlags: 0

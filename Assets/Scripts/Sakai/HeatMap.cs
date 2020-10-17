@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
+/// <summary>
+/// ヒートマップを作成するクラス
+/// </summary>
 public class HeatMap : MonoBehaviour
 {
     /// <summary>
-    /// ヒートマップを作るテクスチャー
+    /// ヒートマップを作るTexture2D
     /// </summary>
     [SerializeField]
     private Texture2D heatMapTexture;
@@ -20,6 +23,9 @@ public class HeatMap : MonoBehaviour
 
     /// <summary>
     /// ヒートマップを貼り付けるRawImage
+    /// RawImageってなんやねん↓
+    /// https://tech.pjin.jp/blog/2017/02/06/unity_ugui_rawimage/
+    /// このサイト，なんか微妙．．．
     /// </summary>
     [SerializeField]
     private RawImage heatMapImage;
@@ -29,18 +35,33 @@ public class HeatMap : MonoBehaviour
     /// </summary>
     public int[, ] agentTraceGrid;
 
+    /// <summary>
+    /// 行動を記録したグリッドデータの最大値
+    /// </summary>
     [HideInInspector]
     public int maxValueOfAgentTraceGrid;
 
+    /// <summary>
+    /// 行動を記録したグリッドデータの最大値（float版）
+    /// </summary>
     [HideInInspector]
     public float maxValueOfAgentTraceGridFixed;
 
+    /// <summary>
+    /// 行動を記録したグリッドデータの最小値
+    /// </summary>
     [HideInInspector]
     public int minValueOfAgentTraceGrid;
 
+    /// <summary>
+    /// 行動を記録したグリッドデータの最小値（float版）
+    /// </summary>
     [HideInInspector]
     public float minValueOfAgentTraceGridFixed;
 
+    /// <summary>
+    /// グリッドデータの数値を合わせたもの
+    /// </summary>
     [HideInInspector]
     public int totalValueOfAgentTraceGrid;
     
@@ -56,6 +77,11 @@ public class HeatMap : MonoBehaviour
     [SerializeField]
     private GridCell gridCell;
 
+    /// <summary>
+    /// GridCellクラスのList
+    /// Listってなんやねん↓
+    /// https://itsakura.com/csharp-list
+    /// </summary>
     private List<GridCell> gridCells;
 
     /// <summary>
@@ -80,12 +106,15 @@ public class HeatMap : MonoBehaviour
 
     void Start()
     {
+        // 変数の初期化
         minValueOfAgentTraceGrid = 0;
         maxValueOfAgentTraceGrid = 0;
         heatMapIsShown = 0;
         gridCellSize = (int)gridCell.transform.localScale.x;
         agentTraceGrid = new int[425 / gridCellSize, 640 / gridCellSize];
         gridCells = new List<GridCell>();
+
+        // 
         InstantiateAgentTraceGrid(agentTraceGrid);
         //SetLinkOfCells();
     }
@@ -114,10 +143,14 @@ public class HeatMap : MonoBehaviour
 		{
 			for(int x = 0; x < matrix.GetLength(1); x++)
 			{
+                // グリッドの原点からの距離を計算
 				Vector3 pos = gridOriginTransform.position;
 				pos.x += x * gridCellSize;
 				pos.z -= y * gridCellSize;
-				GameObject cellObject = Instantiate(gridCell.gameObject, pos, Quaternion.identity);
+                // 計算した位置にグリッドを生成
+                // Instantiateってなんやねん↓
+                // https://www.sejuku.net/blog/48180
+                GameObject cellObject = Instantiate(gridCell.gameObject, pos, Quaternion.identity);
                 GridCell cell = cellObject.GetComponent<GridCell>();
                 gridCells.Add(cell);
                 cellObject.transform.SetParent(gridOriginTransform);
@@ -195,6 +228,9 @@ public class HeatMap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ヒートマップを表示する
+    /// </summary>
     public void ShowHeatMap()
     {
         //float average = (float)totalValueOfAgentTraceGrid / gridCells.Count;
@@ -230,6 +266,7 @@ public class HeatMap : MonoBehaviour
         foreach(GridCell cell in gridCells)
         {
             //cell.SetGridCellImageColor(minValueOfAgentTraceGridFixed, maxValueOfAgentTraceGridFixed, heatMapAlpha);
+            // 現在のデータに応じてグリッドセルの色を設定
             cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
             if (heatMapIsShown == 0)
             {

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// あ
+/// </summary>
 public class ScreenSizeAdjuster : MonoBehaviour
 {
     private void Awake()

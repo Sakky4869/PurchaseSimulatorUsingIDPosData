@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 商品情報登録パネルの3D版
+/// ProductionInfoPanelを継承
+/// </summary>
 public class ProductionInfoPanel3D : ProductionInfoPanel
 {
+    /// <summary>
+    /// 表示対象のProduction3Dオブジェクト
+    /// </summary>
     //[SerializeField]
     public Production3D production3D;
 
@@ -22,10 +29,13 @@ public class ProductionInfoPanel3D : ProductionInfoPanel
 
     void Update()
     {
+        // マウスがクリックされたとき
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            // マウスがパネルの外にあれば
             if (mouseIn == false)
             {
+                // パネルが見えないようにする
                 gameObject.SetActive(false);
             }
         }

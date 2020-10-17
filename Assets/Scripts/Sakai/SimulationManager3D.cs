@@ -5,14 +5,26 @@ using UnityEngine;
 
 public class SimulationManager3D : SimulationManager
 {
+    /// <summary>
+    /// Production3Dのリスト
+    /// </summary>
     [SerializeField]
     private List<Production3D> productions3D;
 
+    /// <summary>
+    /// DataManager3Dクラスの変数
+    /// </summary>
     private DataManager3D dataManager3D;
 
+    /// <summary>
+    /// Customer3Dクラスの変数
+    /// </summary>
     [SerializeField]
     private Customer3D customer3DPrefab;
 
+    /// <summary>
+    /// 入り口のTransform
+    /// </summary>
     [SerializeField]
     private Transform entrance3D;
 
@@ -37,8 +49,11 @@ public class SimulationManager3D : SimulationManager
 
     void Update()
     {
+        // Enterキーが押されたとき
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            // 操作モードが設定モードだったらreturn
+            // returnとは？　Config.csの193行目
             if (Config.operationMode == OperationMode.CONFIG)
                 return;
             isInSimulation = true;
@@ -61,14 +76,19 @@ public class SimulationManager3D : SimulationManager
             }
         }
 
+        // 時間をカウント
         CountTime();
         //Debug.Log("exit count : " + exitCount);
         //Debug.Log("current time : " + currentTime);
     }
 
-
+    /// <summary>
+    /// シミュレーションを開始する
+    /// </summary>
+    /// <param name="iDPosDataRoot">読み込んだID-POSデータ</param>
     private void StartSimulation(IDPosDataRoot iDPosDataRoot)
     {
+        // Production3Dの情報がないときは，Production3Dを全部取得
         if (productions3D == null || productions3D.Count == 0)
             productions3D = GetProductions();
 

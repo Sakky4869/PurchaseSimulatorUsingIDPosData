@@ -381,6 +381,9 @@ public class DataManager : MonoBehaviour
         WriteSystemDatas();
     }
 
+    /// <summary>
+    /// ID-POSデータを読み込む
+    /// </summary>
     public void ReadIDPosData()
     {
         // ファイル名が拡張子付きのときは拡張子を外したものに変更
@@ -393,8 +396,11 @@ public class DataManager : MonoBehaviour
         using(StreamReader reader = new StreamReader(Application.dataPath + "/PosDatas/" + idPosDataFileName +  ".csv"))
         {
             int lineCount = 0;
-
+            // 辞書配列を作る
+            // 辞書配列ってなんやねん↓
+            // https://www.sejuku.net/blog/41326
             Dictionary<string, int> rowDatas = new Dictionary<string, int>();
+
             IDPosData iDPosData = new IDPosData();
             iDPosData.kakouCode = "";
             int customerCount = 0;
@@ -405,6 +411,7 @@ public class DataManager : MonoBehaviour
                 if(lineCount == 0)
                 {
                     // 1行目ではRowデータの取得を行う
+                    // 各データを列の属性（部門とか）で取得できるようにするため
                     string[] rowData = reader.ReadLine().Split(',');
                     //Debug.Log(rowData);
                     for(int i = 0; i < rowData.Length; i++)

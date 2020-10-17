@@ -21,6 +21,10 @@ public class SimulationManager : MonoBehaviour
     /// </summary>
     public float simulationSpeed { get { return Time.timeScale; } set { Time.timeScale = value; } }
 
+    /// <summary>
+    /// シミュレーションを開始するボタン
+    /// 現在は使ってない
+    /// </summary>
     [SerializeField]
     protected Button startSimulationButton;
 
@@ -60,6 +64,9 @@ public class SimulationManager : MonoBehaviour
 
     private DataManager dataManager;
 
+    /// <summary>
+    /// 現在時刻表示用のText
+    /// </summary>
     [SerializeField]
     protected Text timeText;
 
@@ -71,6 +78,9 @@ public class SimulationManager : MonoBehaviour
     [HideInInspector]
     public int customerCount;
 
+    /// <summary>
+    /// シミュレーションをスキップする時間を選択するやつ
+    /// </summary>
     public bool[] simulationSkipHour;
 
     void Start()
@@ -277,12 +287,18 @@ public class SimulationManager : MonoBehaviour
         StartCoroutine(Simulate(iDPosDataRoot));
     }
 
+    /// <summary>
+    /// シミュレーションの処理の本体
+    /// </summary>
+    /// <param name="iDPosDataRoot">ID-POSデータ</param>
+    /// <returns></returns>
     protected IEnumerator Simulate(IDPosDataRoot iDPosDataRoot)
     {
         foreach(IdPosYear idPosYear in iDPosDataRoot.yearDatas)
         {
             foreach(IdPosMonth idPosMonth in idPosYear.monthDatas)
             {
+                // データがないときはスキップ
                 if (idPosMonth.month == 0)
                     continue;
                 foreach(IdPosDay idPosDay in idPosMonth.dayDatas)
@@ -293,14 +309,18 @@ public class SimulationManager : MonoBehaviour
                     {
                         if (idPosHour.hour == 0)
                             continue;
+
+                        // スキップする時刻ならスキップ
                         if (simulationSkipHour[idPosHour.hour] == true)
                             continue;
+
                         //Debug.Log(idPosHour.hour);
                         foreach(IDPosData iDPosData in idPosHour.iDPosDatas)
                         {
                             // 時刻指定があった場合は、指定時刻になるまでスキップ
                             if (Config.isSpecifiedSimulation)
                             {
+                                // 現在時刻が次の顧客の入店時刻を超えるまでスキップ
                                 if(IsOverTime(currentTime, iDPosData.entranceTime) == false)
                                 {
                                     //yield return null;
@@ -351,6 +371,7 @@ public class SimulationManager : MonoBehaviour
         int[] currentTimeInt = current.Split(':').Select(int.Parse).ToArray();
         int[] targetTimeInt = target.Split(':').Select(int.Parse).ToArray();
 
+        // 時刻データをC＃で時刻を扱えるクラスに変換
         DateTime c = new DateTime(currentTimeInt[0], currentTimeInt[1], currentTimeInt[2], currentTimeInt[3], currentTimeInt[4], 0);
         DateTime t = new DateTime(targetTimeInt[0], targetTimeInt[1], targetTimeInt[2], targetTimeInt[3], targetTimeInt[4], 0);
 
@@ -361,6 +382,7 @@ public class SimulationManager : MonoBehaviour
             //    Debug.Log("over " + targetTimeInt[i]);
             //    return true;
             //}
+            // 時刻の比較を行う
             if(c.CompareTo(t) > 0)
             {
                 return true;
@@ -453,6 +475,7 @@ public class SimulationManager : MonoBehaviour
 
     /// <summary>
     /// ある商品からある商品への経路の探索
+    /// 現在はNavMeshAgentが自動でやってくれているので，不要
     /// </summary>
     /// <param name="start">開始地点のメタデータ</param>
     /// <param name="goal">ゴール地点のメタデータ</param>

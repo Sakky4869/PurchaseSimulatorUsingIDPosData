@@ -32,6 +32,9 @@ public class Production3D : MonoBehaviour
     [HideInInspector]
     public string productionId;
 
+    /// <summary>
+    /// ドラッグの開始位置
+    /// </summary>
     private Vector3 dragBeginPosition;
 
     private MapManager mapManager;

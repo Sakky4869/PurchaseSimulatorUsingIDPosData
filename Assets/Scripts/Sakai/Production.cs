@@ -29,8 +29,14 @@ public class Production : MonoBehaviour
     //[HideInInspector]
     public string metaData;
 
+    /// <summary>
+    /// ドラッグ開始位置
+    /// </summary>
     private Vector2 dragBeginPosition;
 
+    /// <summary>
+    /// MapManagerの変数
+    /// </summary>
     private MapManager mapManager;
 
     /// <summary>
@@ -40,6 +46,9 @@ public class Production : MonoBehaviour
     //[HideInInspector]
     public List<Link> links;
     
+    /// <summary>
+    /// 商品情報登録パネル
+    /// </summary>
     [HideInInspector]
     public ProductionInfoPanel productionInfoPanel;
 
@@ -55,6 +64,11 @@ public class Production : MonoBehaviour
     //[HideInInspector]
     public bool isConst;
 
+    /// <summary>
+    /// 1つ前のProduction
+    /// 経路探索で使う
+    /// 現在は使ってない
+    /// </summary>
     //[HideInInspector]
     public Production beforeProduction;
 
@@ -121,10 +135,12 @@ public class Production : MonoBehaviour
     /// </summary>
     public void OnPointerDown()
     {
+        // 操作モードが設定モードでなければreturn
         if (Config.operationMode != OperationMode.CONFIG)
             return;
         //Debug.Log("down");
 
+        // 設置モードに応じて別々の処理をする
         switch (Config.installMode)
         {
             case InstallMode.DELETE:

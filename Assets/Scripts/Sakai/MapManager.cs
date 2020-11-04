@@ -12,6 +12,10 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private bool mouseIn;
 
+    /// <summary>
+    /// Productionのプレハブ
+    /// プレハブとは？　MapManager3D.csの19行目
+    /// </summary>
     [SerializeField]
     private Production productionPrefab;
 
@@ -19,13 +23,22 @@ public class MapManager : MonoBehaviour
     //private 
 
     //[SerializeField]
+    /// <summary>
+    /// Productionオブジェクトの親のRectTransform
+    /// </summary>
     public RectTransform productionRoot;
 
     //private List<Production> productions;
 
+    /// <summary>
+    /// Linkのプレハブ
+    /// </summary>
     [SerializeField]
     private Link linkPrefab;
 
+    /// <summary>
+    /// 現在選択されているProuductionオブジェクト
+    /// </summary>
     [HideInInspector]
     public Production selectedProduction;
 
@@ -37,10 +50,15 @@ public class MapManager : MonoBehaviour
 
     void Update()
     {
+        // 操作モードが設定モードでなければreturn
+        // returnとは？　Config.csの193行目
         if (Config.operationMode != OperationMode.CONFIG)
             return;
+
+        // 左クリックされたとき
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            // 設置モードがPOINTなら
             if(Config.installMode == InstallMode.POINT)
             {
                 InstantiateProduction();
@@ -54,6 +72,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     private void InstantiateProduction()
     {
+        // マウスがマップ外ならreturn
         if (mouseIn == false)
             return;
         Production production = Instantiate(productionPrefab, Input.mousePosition, Quaternion.identity, productionRoot);
@@ -71,6 +90,7 @@ public class MapManager : MonoBehaviour
     /// <param name="productionObject">商品データ</param>
     public void InstantiateProduction(ProductionObject productionObject)
     {
+        // 設置位置のデータを取得
         string[] positionData = productionObject.position.Split(',');
         //Debug.Log(positionData[0] + "," + positionData[1]);
         Vector2 pos = new Vector2(float.Parse(positionData[0]), float.Parse(positionData[1]));
@@ -89,6 +109,11 @@ public class MapManager : MonoBehaviour
         SortProductionsAndLinks();
     }
 
+    /// <summary>
+    /// Linkを生成
+    /// </summary>
+    /// <param name="first">始点のProduction</param>
+    /// <param name="second">終点のProduction</param>
     public void InstantiateLink(Production first, Production second)
     {
         Link link = Instantiate(linkPrefab, first.rectTransform.anchoredPosition, Quaternion.identity, productionRoot);
@@ -106,6 +131,10 @@ public class MapManager : MonoBehaviour
         SortProductionsAndLinks();
     }
 
+    /// <summary>
+    /// システムデータからLinkを復活させるときに使う
+    /// </summary>
+    /// <param name="linkObject">システムデータ内のLinkのデータ</param>
     public void InstantiateLink(LinkObject linkObject)
     {
         Production first = null;
@@ -143,6 +172,8 @@ public class MapManager : MonoBehaviour
 
     /// <summary>
     /// 設置した商品とリンクの階層関係をソートして，商品が手前に来るようにする
+    /// Unityの2Dでは，下にあるものほど手前に表示される
+    /// </summary>
     private void SortProductionsAndLinks()
     {
         List<Production> productions = new List<Production>();

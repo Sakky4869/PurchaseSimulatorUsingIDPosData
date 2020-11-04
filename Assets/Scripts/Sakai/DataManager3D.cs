@@ -11,7 +11,7 @@ using UnityEngine;
  * リンクの保存がないところ以外は2Dと同じ
  */
 
-#region システムデータ関連
+#region システムデータ関連　JSONという形式で保存するためのクラス
 
 /// <summary>
 /// シミュレーションシステムのデータを保存するクラス
@@ -86,7 +86,9 @@ public class DataManager3D : DataManager
         timeDataRoot = new TimeDataRoot();
         mapManager3D = GameObject.Find("Stage").GetComponent<MapManager3D>();
         simulationManager = GameObject.Find("SimulationManager3D").GetComponent<SimulationManager>();
+        // 商品などのシステムデータを読み込む
         ReadSystemDatas3D();
+        // ID-POSデータを読み込む
         ReadIDPosData();
     }
 
@@ -97,7 +99,6 @@ public class DataManager3D : DataManager
 
     /// <summary>
     /// モードデータの保存
-    /// ファイルへの書き込みはしない
     /// </summary>
     public void SaveModeData3D()
     {
@@ -107,18 +108,23 @@ public class DataManager3D : DataManager
 
     /// <summary>
     /// マップデータを保存する
-    /// ファイルへの書き込みはしない
     /// </summary>
     public void SaveMapData3D()
     {
         systemData3D.productionObjects3D.Clear();
+        // すべての商品オブジェクトについて
         foreach(Transform transform in mapObjectRoot3D)
         {
             // 商品オブジェクトのとき
             if(transform.GetComponent<Production3D>() != null)
             {
+                // Production3Dクラスをゲット
                 Production3D production3D = transform.GetComponent<Production3D>();
+                
+                // 保存用クラスの変数を宣言
                 ProductionObject productionObject = new ProductionObject();
+                
+                // 中身を移す
                 productionObject.productionData.productionName = production3D.productionName;
                 productionObject.productionData.productionMetaData = production3D.metaData;
                 productionObject.productionId = production3D.productionId;
@@ -128,14 +134,21 @@ public class DataManager3D : DataManager
             }
         }
 
+        // システムデータをファイルに書き込む
         WriteSystemDatas3D();
     }
 
+    /// <summary>
+    /// システムデータをファイルに書き込む
+    /// </summary>
     private void WriteSystemDatas3D()
     {
+        // JSON形式で保存するために用意したクラスの変数を，JSON文字列に変換
         string data = JsonUtility.ToJson(systemData3D);
 
+        // データを保存するファイルを入れるディレクトリがあるかを確認
         DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + "/SystemDatas");
+        // ディレクトリがなければ作る
         if (directoryInfo.Exists == false)
         {
             directoryInfo.Create();
@@ -143,11 +156,15 @@ public class DataManager3D : DataManager
 
         string systemDataFileUser = null;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR // Unityエディタだった場合
+        // Gitのブランチデータから編集者の名前を取得
         systemDataFileUser = GetGitBranchName();
 #endif
 
+        
         FileInfo fileInfo;// = new FileInfo(Application.dataPath + "/SystemDatas/SystemData.json");
+        
+        // 編集者の名前が取得できていれば
         if (systemDataFileUser != null)
         {
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + "_3D.json");
@@ -157,7 +174,7 @@ public class DataManager3D : DataManager
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_3D.json");
         }
 
-
+        // ファイルが存在していなければ作る
         if (fileInfo.Exists == false)
         {
             fileInfo.Create();
@@ -166,8 +183,11 @@ public class DataManager3D : DataManager
 
         if (systemDataFileUser == null)
         {
+            // StreamWriterでファイルに書き込むための道を作る
+            // 鉛筆を持つみたいなイメージ
             using (StreamWriter writer = new StreamWriter(Application.dataPath + "/SystemDatas/SystemData_3D.json"))
             {
+                // 書き込む
                 writer.Write(data);
             }
         }
@@ -181,6 +201,9 @@ public class DataManager3D : DataManager
     }
 
 
+    /// <summary>
+    /// システムデータを読み込む
+    /// </summary>
     private void ReadSystemDatas3D()
     {
         string systemDataFileUser = null;
@@ -194,7 +217,7 @@ public class DataManager3D : DataManager
 
         FileInfo fileInfo;
 
-        // エディタではないとき
+        // エディタのとき
         if (systemDataFileUser != null)
         {
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + "_3D.json");
@@ -212,15 +235,20 @@ public class DataManager3D : DataManager
             return;
         }
 
+        // StreamReaderでファイルを読み込む道を作る
         using(StreamReader reader = new StreamReader(fileInfo.FullName))
         {
             string data = reader.ReadToEnd();
             Debug.Log(data);
             systemData3D = JsonUtility.FromJson<SystemData3D>(data);
         }
+        // データをUnityの空間に反映
         RestoreSystem();
     }
 
+    /// <summary>
+    /// システムデータをUnityの空間に反映
+    /// </summary>
     private void RestoreSystem()
     {
         if(systemData3D == null)

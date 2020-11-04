@@ -64,6 +64,14 @@ public class MapManager3D : MonoBehaviour
         production3D.gameObject.transform.SetParent(productionObjectRoot);
         DateTime now = DateTime.Now;
         production3D.productionId = now.Year + ":" + now.Month + ":" + now.Day + ":" + now.Hour + ":" + now.Minute + ":" + now.Second + ":" + now.Millisecond;
+        // 情報パネルの生成と商品オブジェクトへのセット
+        ProductionInfoPanel3D panel3D = Instantiate(productionInfoPanel3D, transform.position, Quaternion.identity);
+        panel3D.myRectTransform = panel3D.GetComponent<RectTransform>();
+        panel3D.myRectTransform.SetParent(canvas);
+        panel3D.myRectTransform.transform.position = Camera.main.WorldToScreenPoint(production3D.transform.position);
+        panel3D.production3D = production3D;
+        production3D.infoPanel = panel3D;
+        production3D.infoPanel.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -96,6 +104,7 @@ public class MapManager3D : MonoBehaviour
         panel3D.myRectTransform.transform.position = Camera.main.WorldToScreenPoint(production3D.transform.position);
         panel3D.production3D = production3D;
         production3D.infoPanel = panel3D;
+        //Debug.Log("assign info panel");
         production3D.SetValueToInfoPanel();
         production3D.infoPanel.gameObject.SetActive(false);
     }

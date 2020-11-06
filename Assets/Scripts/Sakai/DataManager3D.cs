@@ -120,7 +120,7 @@ public class DataManager3D : DataManager
             {
                 // Production3Dクラスをゲット
                 Production3D production3D = transform.GetComponent<Production3D>();
-                
+                production3D.infoPanel.SaveProductionData();
                 // 保存用クラスの変数を宣言
                 ProductionObject productionObject = new ProductionObject();
                 
@@ -239,7 +239,7 @@ public class DataManager3D : DataManager
         using(StreamReader reader = new StreamReader(fileInfo.FullName))
         {
             string data = reader.ReadToEnd();
-            Debug.Log(data);
+            //Debug.Log(data);
             systemData3D = JsonUtility.FromJson<SystemData3D>(data);
         }
         // データをUnityの空間に反映

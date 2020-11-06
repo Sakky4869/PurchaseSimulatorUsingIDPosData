@@ -116,7 +116,9 @@ public class MapManager3D : MonoBehaviour
             // 出口用商品だったら，ゲームオブジェクトのタグをexitに設定
             production3D.gameObject.tag = "Exit";
         }
+        //Debug.Log(productionObject.productionData.productionMetaData);
         production3D.metaData = productionObject.productionData.productionMetaData;
+        //Debug.Log(production3D.metaData);
         production3D.productionId = productionObject.productionId;
 
         // 情報パネルの生成と商品オブジェクトへのセット

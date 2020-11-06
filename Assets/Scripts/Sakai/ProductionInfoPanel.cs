@@ -152,6 +152,7 @@ public class ProductionInfoPanel : MonoBehaviour
         // 部門・AU・ライン・クラスが一致して，商品名が異なるものがあったので，
         // 商品名も含めてメタデータにしようとしたが，商品名の最後になぜか改行コードが入るので，いったんとりやめ
         production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text;// + "," + nameInput.text;
+        //Debug.Log(bumonInput.text);
         if (production.metaData.Contains("\r"))
             production.metaData.Replace("\r", "");
     }
@@ -180,6 +181,7 @@ public class ProductionInfoPanel : MonoBehaviour
         mouseIn = false;
         //Debug.Log("pointer exit");
     }
+
 
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// ヒートマップを作成するクラス
@@ -102,6 +103,21 @@ public class HeatMap : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float heatMapAlpha;
 
+    /// <summary>
+    /// 棒グラフが表示されているかどうか
+    /// １－＞表示されている
+    /// ０－＞表示されていない
+    /// </summary>
+    private int stickGraphIsShown;
+
+    private Vector3 firstCameraPosition;
+
+    private Quaternion firstCameraRotation;
+
+    [SerializeField]
+    private Transform stickGraphCameraPosition;
+
+
 
 
     void Start()
@@ -116,6 +132,10 @@ public class HeatMap : MonoBehaviour
 
         // 
         InstantiateAgentTraceGrid(agentTraceGrid);
+
+
+        firstCameraPosition = Camera.main.gameObject.transform.position;
+        firstCameraRotation = Camera.main.gameObject.transform.rotation;
         //SetLinkOfCells();
     }
 
@@ -130,6 +150,11 @@ public class HeatMap : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftControl))
                 return;
             ShowHeatMap();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            ShowStickGraph();
         }
     }
     
@@ -281,5 +306,38 @@ public class HeatMap : MonoBehaviour
         }
 
         heatMapIsShown = 1 - heatMapIsShown;
+    }
+
+
+    private void ShowStickGraph()
+    {
+        foreach (GridCell cell in gridCells)
+        {
+            //cell.SetGridCellImageColor(minValueOfAgentTraceGridFixed, maxValueOfAgentTraceGridFixed, heatMapAlpha);
+            // 現在のデータに応じてグリッドセルの色を設定
+            cell.SetStickScale(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
+            //cell.SetGridCellImageColor(minValueOfAgentTraceGrid, maxValueOfAgentTraceGrid, heatMapAlpha);
+            if (stickGraphIsShown == 0)
+            {
+                //cell.heatMapCellImage.gameObject.SetActive(true);
+                cell.stick.SetActive(true);
+                Camera.main.transform.position = stickGraphCameraPosition.position;
+                Vector3 rotation = Camera.main.transform.rotation.eulerAngles;
+                rotation.x = 45;
+                Camera.main.transform.rotation = Quaternion.Euler(rotation);
+                Debug.Log("main camera fixed");
+
+            }
+            else
+            {
+                //cell.heatMapCellImage.gameObject.SetActive(false);
+                cell.stick.SetActive(false);
+                Camera.main.transform.position = firstCameraPosition;
+                Camera.main.transform.rotation = firstCameraRotation;
+                Debug.Log("main camera reset");
+            }
+        }
+
+        stickGraphIsShown = 1 - stickGraphIsShown;
     }
 }

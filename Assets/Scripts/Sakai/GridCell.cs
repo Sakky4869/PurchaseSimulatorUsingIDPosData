@@ -81,6 +81,12 @@ public class GridCell : MonoBehaviour
     [HideInInspector]
     public bool isVisited;
 
+    /// <summary>
+    /// 棒グラフ表示に用いる棒オブジェクト
+    /// </summary>
+    //[SerializeField]
+    public GameObject stick;
+
     
     
 
@@ -123,6 +129,22 @@ public class GridCell : MonoBehaviour
         // Imageにセット
         heatMapCellImage.color = new Color(r, g, b, alpha);
     }
+
+    /// <summary>
+    /// 棒グラフを表示する
+    /// </summary>
+    /// <param name="minValue">グリッドデータの最小値</param>
+    /// <param name="maxValue">グリッドデータの最大値</param>
+    /// <param name="alpha">棒グラフの透明度</param>
+    public void SetStickScale(int minValue, int maxValue, float alpha)
+    {
+        Vector3 stickScale = new Vector3(1, traceCount, 1);
+        stick.transform.localScale = stickScale;
+        Vector3 position = new Vector3(0, traceCount / 2 - 0.5f, 0);
+        stick.transform.localPosition = position;
+        //stick.SetActive(true);
+    }
+
 
     /// <summary>
     /// Unityの機能で，当たり判定を取るためのメソッド

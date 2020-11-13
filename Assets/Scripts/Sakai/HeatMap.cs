@@ -110,12 +110,26 @@ public class HeatMap : MonoBehaviour
     /// </summary>
     private int stickGraphIsShown;
 
+    /// <summary>
+    /// メインカメラの最初の位置
+    /// </summary>
     private Vector3 firstCameraPosition;
 
+    /// <summary>
+    /// メインカメラの最初の角度
+    /// </summary>
     private Quaternion firstCameraRotation;
 
+    /// <summary>
+    /// 棒グラフを見るときのカメラのTransform
+    /// </summary>
     [SerializeField]
     private Transform stickGraphCameraPosition;
+
+    /// <summary>
+    /// 棒グラフのスケール
+    /// </summary>
+    public float stickGraphScale;
 
 
 
@@ -323,9 +337,10 @@ public class HeatMap : MonoBehaviour
                 cell.stick.SetActive(true);
                 Camera.main.transform.position = stickGraphCameraPosition.position;
                 Vector3 rotation = Camera.main.transform.rotation.eulerAngles;
-                rotation.x = 45;
+                rotation.x = 65;
                 Camera.main.transform.rotation = Quaternion.Euler(rotation);
-                Debug.Log("main camera fixed");
+                Camera.main.orthographic = false;
+                //Debug.Log("main camera fixed");
 
             }
             else
@@ -334,7 +349,8 @@ public class HeatMap : MonoBehaviour
                 cell.stick.SetActive(false);
                 Camera.main.transform.position = firstCameraPosition;
                 Camera.main.transform.rotation = firstCameraRotation;
-                Debug.Log("main camera reset");
+                Camera.main.orthographic = true;
+                //Debug.Log("main camera reset");
             }
         }
 

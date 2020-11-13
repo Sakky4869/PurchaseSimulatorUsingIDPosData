@@ -138,9 +138,10 @@ public class GridCell : MonoBehaviour
     /// <param name="alpha">棒グラフの透明度</param>
     public void SetStickScale(int minValue, int maxValue, float alpha)
     {
-        Vector3 stickScale = new Vector3(1, traceCount, 1);
+        Vector3 stickScale = new Vector3(1, traceCount / heatMap.stickGraphScale, 1);
         stick.transform.localScale = stickScale;
-        Vector3 position = new Vector3(0, traceCount / 2 - 0.5f, 0);
+        //Vector3 position = new Vector3(0, traceCount / 2 - 0.5f, 0);
+        Vector3 position = new Vector3(0, stickScale.y / 2 - 0.5f, 0);
         stick.transform.localPosition = position;
         //stick.SetActive(true);
     }

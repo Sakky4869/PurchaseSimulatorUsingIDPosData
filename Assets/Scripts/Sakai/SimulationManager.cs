@@ -312,7 +312,7 @@ public class SimulationManager : MonoBehaviour
                             continue;
 
                         // スキップする時刻ならスキップ
-                        if (simulationSkipHour[idPosHour.hour] == true)
+                        if (simulationSkipHour[(idPosHour.hour == 0)?23:idPosHour.hour - 1] == true)
                             continue;
 
                         //Debug.Log(idPosHour.hour);
@@ -341,7 +341,7 @@ public class SimulationManager : MonoBehaviour
                                 {
                                     flag = true;
 
-                                    Debug.Log("enter");
+                                    //Debug.Log("enter");
                                     customerCount++;
                                     InstantiateCustomer(iDPosData.productionDatas);
 

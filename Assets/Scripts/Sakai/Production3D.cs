@@ -83,6 +83,7 @@ public class Production3D : MonoBehaviour
         string[] data = metaData.Split(',');
         infoPanel.SetValueToInputField(data[0], data[1], data[2], data[3], productionName);
         infoPanel.gameObject.SetActive(false);
+        //Debug.Log(productionName);
     }
 
     /// <summary>

@@ -498,16 +498,41 @@ public class DataManager : MonoBehaviour
                         // 時刻データの取り出し
                         hour = int.Parse(data[rowDatas["時台"]]);
 
+                        //Debug.Log("year : " + year + " , month : " + month + " , day : " + day + " , hour : " + hour); 
+
                         // コメント化理由：ID-POSデータのルートオブジェクトをメソッドの引数が渡す形式に変更したため
                         // 年月日時のデータを保存してから1人分のID-POSデータを保存
                         iDPosDataRoot.yearDatas[0].year = year;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].month = month;
                         iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].day = day;
-                        iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].hour = hour;
+                        if(hour == 0)
+                        {
+                            //Debug.Log("hour 0");
+                            //Debug.Log("hour datas length : " + iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas.Length);
+                            //Debug.Log("month : " + month);
+
+                            iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[23].hour = hour;
+                        }
+                        else
+                        {
+                            //Debug.Log("hour not 0");
+                            iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].hour = hour;
+                        }
+                        //iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[(hour == 0)?23: hour - 1].hour = hour;
                         // 最後に出口のデータを入れる
                         iDPosData.productionDatas.Add(new ProductionData("exit", "0,0,0,0"));
+                        if(hour == 0)
+                        {
+                            // ここでID-POSデータを保存
+                            iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[23].iDPosDatas.Add(iDPosData);
+                        }
+                        else
+                        {
+                            // ここでID-POSデータを保存
+                            iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
+                        }
                         // ここでID-POSデータを保存
-                        iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
+                        //iDPosDataRoot.yearDatas[0].monthDatas[month - 1].dayDatas[day - 1].hourDatas[hour - 1].iDPosDatas.Add(iDPosData);
 
                         //// 年月日時のデータを保存してから1人分のID-POSデータを保存
                         //root.yearDatas[0].year = year;

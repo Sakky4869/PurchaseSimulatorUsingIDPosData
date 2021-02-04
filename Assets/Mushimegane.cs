@@ -186,6 +186,19 @@ public class Mushimegane : MonoBehaviour
             .GetChild(0) // Button
             .GetChild(0).GetComponent<Text>(); // Text
         text.text = name;
+
+
+ /*       for (int i = 0; i < rectTransform.ChildCount; i++)
+        {
+            RoomNode roomNode = rectTransform.GetChild(i).GetComponent<RoomNode>();
+            string data = roomNode.recognitionData;
+            if (data == exitProductionData)
+            {
+                roomNode.SetParent(null);
+                Destroy(roomNode.gameObject);
+            }
+        }*/
+
     }
 
     //侵入した（当たった）瞬間

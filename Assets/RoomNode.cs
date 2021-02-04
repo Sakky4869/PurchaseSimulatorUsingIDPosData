@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RoomNode : MonoBehaviour
 {
+
+    public string recognitionData;// productionName + metaData
     // Start is called before the first frame update
     void Start()
     {

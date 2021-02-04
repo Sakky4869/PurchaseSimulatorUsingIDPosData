@@ -639,6 +639,11 @@ public class DataManager : MonoBehaviour
         {
             string[] data = streamReader.ReadToEnd().Split('/');
             string returnData = data[data.Length - 1];
+            if (returnData.Contains("_"))
+            {
+                data = returnData.Split('_');
+                returnData = data[0];
+            }
             returnData = returnData.Replace("\n", "");
             return returnData;
         }

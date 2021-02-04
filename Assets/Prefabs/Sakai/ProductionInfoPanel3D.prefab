@@ -943,7 +943,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 960, y: 540}
+  m_AnchoredPosition: {x: 422.99994, y: 103.00003}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2725069053463999505
@@ -964,7 +964,7 @@ MonoBehaviour:
   classInput: {fileID: 2725069054159320894}
   nameInput: {fileID: 2725069054159320893}
   production: {fileID: 0}
-  myRectTransform: {fileID: 0}
+  myRectTransform: {fileID: 2725069053463999504}
   production3D: {fileID: 0}
 --- !u!1 &2725069053909409206
 GameObject:

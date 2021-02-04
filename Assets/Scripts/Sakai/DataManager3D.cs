@@ -75,12 +75,16 @@ public class DataManager3D : DataManager
 
     private MapManager3D mapManager3D;
 
+    [SerializeField]
+    private string systemDataFileName;
+
     //private SimulationManager simulationManager;
 
     
 
     void Start()
     {
+        //Debug.Log("Start 呼び出し");
         systemData3D = new SystemData3D();
         iDPosDataRoot = new IDPosDataRoot();
         timeDataRoot = new TimeDataRoot();
@@ -183,7 +187,7 @@ public class DataManager3D : DataManager
 
     private void ReadSystemDatas3D()
     {
-        string systemDataFileUser = null;
+        string systemDataFileUser = "";
 #if UNITY_EDITOR
         systemDataFileUser = GetGitBranchName();
 #endif
@@ -200,11 +204,14 @@ public class DataManager3D : DataManager
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + systemDataFileUser + "_3D.json");
             //fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_" + "Nakamura" + "_3D.json");
             //Debug.Log("got branch name");
+            fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/" + systemDataFileName + ".json");
         }
         else
         {
             fileInfo = new FileInfo(Application.dataPath + "/SystemDatas/SystemData_3D.json");
         }
+
+
 
         if (fileInfo.Exists == false)
         {
@@ -217,6 +224,7 @@ public class DataManager3D : DataManager
             string data = reader.ReadToEnd();
             //Debug.Log(data);
             systemData3D = JsonUtility.FromJson<SystemData3D>(data);
+            //Debug.Log("商品データを読み込み");
         }
         RestoreSystem();
     }
@@ -239,6 +247,7 @@ public class DataManager3D : DataManager
         foreach(ProductionObject productionObject in systemData3D.productionObjects3D)
         {
             mapManager3D.InstantiateProduction3D(productionObject);
+            //Debug.Log("商品を生成");
         }
 
         //Debug.Log("restore system data");

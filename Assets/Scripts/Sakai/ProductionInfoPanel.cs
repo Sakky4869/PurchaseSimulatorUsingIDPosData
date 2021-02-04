@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// 商品情報登録パネルのクラス
+/// </summary>
 public class ProductionInfoPanel : MonoBehaviour
 {
     /// <summary>
@@ -127,6 +130,10 @@ public class ProductionInfoPanel : MonoBehaviour
         //Debug.Log("値の設定");
     }
 
+    /// <summary>
+    /// 商品名の編集が完了したときの処理
+    /// </summary>
+    /// <param name="data">商品名を編集するInputFieldのデータ</param>
     protected void EndEditProductionName(string data)
     {
         //Debug.Log("商品名変更");
@@ -135,16 +142,24 @@ public class ProductionInfoPanel : MonoBehaviour
             production.productionName.Replace("\r", "");
     }
 
+    /// <summary>
+    /// 商品のメタデータの編集が完了したときの処理
+    /// </summary>
+    /// <param name="data">メタデータを編集するInputFieldのデータ</param>
     protected void EndEditProductionMetaData(string data)
     {
         //Debug.Log("商品のメタデータ変更");
         // 部門・AU・ライン・クラスが一致して，商品名が異なるものがあったので，
         // 商品名も含めてメタデータにしようとしたが，商品名の最後になぜか改行コードが入るので，いったんとりやめ
         production.metaData = bumonInput.text + "," + auInput.text + "," + lineInput.text + "," + classInput.text;// + "," + nameInput.text;
+        //Debug.Log(bumonInput.text);
         if (production.metaData.Contains("\r"))
             production.metaData.Replace("\r", "");
     }
 
+    /// <summary>
+    /// 商品のデータを保存する
+    /// </summary>
     public void SaveProductionData()
     {
         production.productionName = nameInput.text;
@@ -166,6 +181,7 @@ public class ProductionInfoPanel : MonoBehaviour
         mouseIn = false;
         //Debug.Log("pointer exit");
     }
+
 
 
 }

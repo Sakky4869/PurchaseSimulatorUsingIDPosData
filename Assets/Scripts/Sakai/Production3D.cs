@@ -32,6 +32,9 @@ public class Production3D : MonoBehaviour
     [HideInInspector]
     public string productionId;
 
+    /// <summary>
+    /// ドラッグの開始位置
+    /// </summary>
     private Vector3 dragBeginPosition;
 
     private MapManager mapManager;
@@ -76,9 +79,11 @@ public class Production3D : MonoBehaviour
     /// </summary>
     public void SetValueToInfoPanel()
     {
+        //Debug.Log(metaData);
         string[] data = metaData.Split(',');
         infoPanel.SetValueToInputField(data[0], data[1], data[2], data[3], productionName);
         infoPanel.gameObject.SetActive(false);
+        //Debug.Log(productionName);
     }
 
     /// <summary>
@@ -212,6 +217,8 @@ public class Production3D : MonoBehaviour
             if (Input.GetMouseButtonUp(1))
             {
                 Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
+                if (infoPanel == null)
+                    Debug.Log("info panel is null");
                 infoPanel.myRectTransform.position = pos;
                 infoPanel.gameObject.SetActive(true);
                 //Debug.Log("show info panel");

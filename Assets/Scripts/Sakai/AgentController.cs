@@ -3,46 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/** ＜メモ＞
- * 商品のたどり着いたときのエージェントと商品の距離：10
- * 
- */
-
+/// <summary>
+/// 顧客エージェントのクラス
+/// </summary>
 public class AgentController : MonoBehaviour
 {
 
+    /// <summary>
+    /// 移動速度
+    /// </summary>
     [SerializeField]
     private int speed;
 
+    /// <summary>
+    /// NavMesh
+    /// 自動的に経路探索してくれるやつ
+    /// </summary>
     [SerializeField]
     private NavMeshAgent agent;
 
+    /// <summary>
+    /// 目標としている商品のGameObject
+    /// </summary>
     [SerializeField]
     private GameObject target;
 
+    /// <summary>
+    /// たどる予定の経路
+    /// Vector3は，座標を表すクラス
+    /// Queueはキューというデータ構造のクラス
+    /// 「C# キュー」とかで調べたらいろいろ出てくる
+    /// </summary>
     private Queue<Vector3> tracePositions;
 
+    /// <summary>
+    /// 次にたどる予定の商品のGameObject
+    /// </summary>
     [SerializeField]
     private GameObject tracePositionObject;
 
+    /// <summary>
+    /// 今後たどる予定の商品のGameObjectのList
+    /// Listは長さを自由に変えることができる配列
+    /// </summary>
     private List<GameObject> tracePositionObjectList;
 
-    private bool switchFlag;
+    //private bool switchFlag;
 
-    private GameObject spawned;
+    //private GameObject spawned;
 
 
     void Start()
     {
-        switchFlag = false;
-        spawned = Instantiate(tracePositionObject, Vector3.zero, Quaternion.identity);
+        //switchFlag = false;
+        //spawned = Instantiate(tracePositionObject, Vector3.zero, Quaternion.identity);
+
+        // 今後たどる予定の商品のリストを初期化
+        // Listは最初に初期化をして使う
         tracePositionObjectList = new List<GameObject>();
     }
 
-    public void Init()
-    {
-        tracePositions = new Queue<Vector3>();
-    }
+
+    //public void Init()
+    //{
+    //    tracePositions = new Queue<Vector3>();
+    //}
 
     void Update()
     {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// ヒートマップのセルのクラス
+/// </summary>
 public class GridCell : MonoBehaviour
 {
     /// <summary>
@@ -18,16 +21,16 @@ public class GridCell : MonoBehaviour
     public int y;
 
     //[HideInInspector]
-    public GridCell forwardCell;
+    //public GridCell forwardCell;
 
     //[HideInInspector]
-    public GridCell backwardCell;
+    //public GridCell backwardCell;
 
     //[HideInInspector]
-    public GridCell rightCell;
+    //public GridCell rightCell;
 
     //[HideInInspector]
-    public GridCell leftCell;
+    //public GridCell leftCell;
 
     /// <summary>
     /// ヒートマップの生成スクリプト
@@ -36,7 +39,7 @@ public class GridCell : MonoBehaviour
     private HeatMap heatMap;
 
     /// <summary>
-    /// 
+    /// ヒートマップに映るときの色の配列
     /// </summary>
     [SerializeField]
     private Color[] myColor;
@@ -47,22 +50,34 @@ public class GridCell : MonoBehaviour
     //[SerializeField]
     public int traceCount;
 
-    public float traceCountFixed;
+    /// <summary>
+    /// 
+    /// </summary>
+    //public float traceCountFixed;
 
     //[SerializeField]
     //private MeshRenderer mesh;
 
     /// <summary>
-    /// このグリッドセルのイメージの色
+    /// このグリッドセルのイメージs
     /// </summary>
     //[SerializeField]
     public Image heatMapCellImage;
 
+    /// <summary>
+    /// ヒートマップの親オブジェクトにするGameObject
+    /// </summary>
     public GameObject heatMapImageParent;
 
+    /// <summary>
+    /// コスト
+    /// </summary>
     [HideInInspector]
     public float cost;
 
+    /// <summary>
+    /// このセルが通過されたことがあるか
+    /// </summary>
     [HideInInspector]
     public bool isVisited;
 
@@ -79,8 +94,12 @@ public class GridCell : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 初期化メソッド
+    /// </summary>
     public void Init()
     {
+        // ヒートマップを取得
         heatMap = GameObject.Find("HeatMapCreator").GetComponent<HeatMap>();
         GetComponent<MeshRenderer>().enabled = false;
     }
@@ -105,6 +124,13 @@ public class GridCell : MonoBehaviour
         heatMapCellImage.color = new Color(r, g, b, alpha);
     }
 
+    /// <summary>
+    /// Unityの機能で，当たり判定を取るためのメソッド
+    /// Colliderを使う
+    /// Colliderってなんやねん↓
+    /// https://www.sejuku.net/blog/59171
+    /// </summary>
+    /// <param name="other">当たったオブジェクトのCollider</param>
     private void OnTriggerEnter(Collider other)
     {
         // 障害物のときは見えなくする
@@ -122,6 +148,7 @@ public class GridCell : MonoBehaviour
         if(customer3D.isGetFirstProduction == true && customer3D.isGettingExit == false)
         {
             traceCount++;
+            // ヒートマップの配列を更新
             heatMap.UpdateHeatMapMatrix(x, y);
         }
         //SetGridCellImageColor(heatMap.minValueOfAgentTraceGrid, heatMap.maxValueOfAgentTraceGrid);

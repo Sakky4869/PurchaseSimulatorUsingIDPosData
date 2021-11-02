@@ -82,6 +82,17 @@ public class SimulationManager3D : SimulationManager
         //Debug.Log("current time : " + currentTime);
     }
 
+    public void OnClickStartSimulationButton()
+    {
+        // 操作モードが設定モードだったらreturn
+        // returnとは？　Config.csの193行目
+        if (Config.operationMode == OperationMode.CONFIG)
+            return;
+        isInSimulation = true;
+        isPausedSimulation = false;
+        StartSimulation(dataManager3D.iDPosDataRoot);
+    }
+
     /// <summary>
     /// シミュレーションを開始する
     /// </summary>

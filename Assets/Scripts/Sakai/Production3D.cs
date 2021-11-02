@@ -217,7 +217,7 @@ public class Production3D : MonoBehaviour
             {
                 Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
                 if (infoPanel == null)
-                    Debug.Log("info panel is null");
+                    //Debug.Log("info panel is null");
                 infoPanel.myRectTransform.position = pos;
                 infoPanel.gameObject.SetActive(true);
                 //Debug.Log("show info panel");

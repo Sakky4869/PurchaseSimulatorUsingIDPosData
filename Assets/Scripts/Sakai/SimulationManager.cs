@@ -341,7 +341,7 @@ public class SimulationManager : MonoBehaviour
                                 {
                                     flag = true;
 
-                                    Debug.Log("enter");
+                                    //Debug.Log("enter");
                                     customerCount++;
                                     InstantiateCustomer(iDPosData.productionDatas);
 

@@ -208,7 +208,8 @@ public class DataManager3D : DataManager
     {
         string systemDataFileUser = null;
 #if UNITY_EDITOR
-        systemDataFileUser = GetGitBranchName();
+        //systemDataFileUser = GetGitBranchName();
+        systemDataFileUser = "sakai";
 #endif
 
         DirectoryInfo directoryInfo = new DirectoryInfo(Application.dataPath + "/SystemDatas");

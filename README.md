@@ -26,6 +26,10 @@ https://web.wakayama-u.ac.jp/~yoshino/lab/research/nakamura_2021/
 * NavMeshAgent
   * 客の購買行動のシミュレーションに利用
 
+## 開発体制と担当範囲
+
+開発は2人で行い，そのうち私は設計・実装・追加機能の実装を行いました．
+
 ## 工夫した点
 
 * 購買行動のシミュレーションに用いたNavMeshAgentが，デフォルトに仕様では理想通りに動いてくれなかったので，NavMeshAgentの仕様を調べ，一部カスタマイズしました．
